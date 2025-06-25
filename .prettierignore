@@ -1,0 +1,9 @@
+# 🔒 Ignore lock and workspace configuration files
+pnpm-lock.yaml
+pnpm-workspace.yaml
+
+# 📦 Ignore dependencies
+node_modules/
+
+# 📁 Ignore build output
+dist/

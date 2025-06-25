@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "incremental": true,
+    // Project References 相关配置
+    // 用于支持项目引用和增量编译功能
+    // 参考: https://www.typescriptlang.org/docs/handbook/project-references.html
+
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "noEmitOnError": true,
+    "skipLibCheck": true,
+    // 编译输出相关配置
+    // 控制声明文件(.d.ts)的生成和错误处理
+    // 仅生成类型声明文件，不生成 JS 文件
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    // 模块互操作性配置
+    // 启用 CommonJS 和 ES Module 之间的互操作支持
+
+    "resolveJsonModule": true,
+    "strict": true,
+    // 基础功能配置
+    // 启用 JSON 模块导入支持和严格类型检查
+
+    "lib": ["ESNext", "DOM"],
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Node" // 模块解析方式，采用 Node.js 兼容的解析规则，适用于大多数现代项目
+  }
+}

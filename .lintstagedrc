@@ -1,0 +1,7 @@
+{
+  "*.{js,cjs,mjs,md,ts,vue,json,css}": [
+    "eslint --fix",
+    "oxlint --fix -D correctness",
+    "prettier --write"
+  ]
+}

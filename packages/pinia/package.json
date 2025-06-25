@@ -1,0 +1,14 @@
+{
+  "name": "@ethan-utils/pinia",
+  "version": "0.9.0",
+  "description": "封装 Pinia 状态管理库，集成持久化存储和插件支持",
+  "main": "index.ts",
+  "author": "Ethan Zhang",
+  "license": "MIT",
+  "packageManager": "pnpm@10.12.1",
+  "dependencies": {
+    "pinia": "^3.0.3",
+    "pinia-plugin-persistedstate": "^4.3.0",
+    "zipson": "^0.2.12"
+  }
+}
