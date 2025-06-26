@@ -14,8 +14,8 @@
     "lint:eslint": "eslint . --fix",
     "lint": "run-s lint:*",
     "commit": "commit",
-    "vp": "changeset version",
-    "release": "run-s build release:only",
+    "release": "run-s build version release:only",
+    "version": "changeset version",
     "release:only": "changeset publish --registry=https://registry.npmjs.com/"
   },
   "devDependencies": {
