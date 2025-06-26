@@ -2,10 +2,40 @@
   "name": "@ethan-utils/axios",
   "version": "0.9.0",
   "description": "封装的高可用性axios请求库，支持全局配置、请求拦截、响应拦截等功能",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "types/index.d.ts",
+  "files": [
+    "dist",
+    "types",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./types/index.d.ts"
+    }
+  },
+  "scripts": {
+    "generate-types": "tsc --emitDeclarationOnly --declaration --declarationDir types --project tsconfig.json",
+    "build": "rolldown -c rolldown.config.ts"
+  },
   "author": "Ethan Zhang",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ethanz-code/ethan-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ethanz-code/ethan-utils/issues"
+  },
+  "homepage": "https://github.com/ethanz-code/ethan-utils#readme",
   "packageManager": "pnpm@10.12.1",
+  "engines": {
+    "node": ">=18"
+  },
+  "sideEffects": false,
   "dependencies": {
     "axios": "^1.10.0",
     "axios-retry": "^4.5.0",

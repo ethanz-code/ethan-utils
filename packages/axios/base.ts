@@ -23,6 +23,10 @@ export interface CreateApiOptions {
    * @property {() => void} [onUnauthorized] - 当收到 401 未授权响应时的回调函数
    */
   onUnauthorized?: () => void;
+  /**
+   * @property {number} [timeout] - 请求超时时间
+   */
+  timeout?: number;
 }
 
 /**
@@ -41,7 +45,7 @@ export function createApi(options: CreateApiOptions): AxiosInstance {
   const axiosConfig: CreateAxiosDefaults = {
     baseURL: options.baseURL,
     headers,
-    timeout: 10000, // 10秒超时
+    timeout: options.timeout || 10000,
     paramsSerializer: {
       serialize: (params) => {
         return qs.stringify(params, { arrayFormat: "brackets" });

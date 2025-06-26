@@ -28,3 +28,10 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# act cache
+.act/
+
+# sub-packages types
+packages/*/types
+node-pkgs/*/types
