@@ -294,7 +294,7 @@ let apiClientInstance: ReturnType<typeof createApiClient> | null = null;
  * @description 必须在应用启动时调用一次，重复调用会收到警告。
  * @example
  * // 在 main.ts 或 app.ts 中
- * import { initApiClient } from '@monorepo-vue-starter/axios';
+ * import { initApiClient } from '@ethan-utils/axios';
  *
  * initApiClient({
  *   baseURL: 'https://api.example.com',
@@ -318,7 +318,7 @@ export function initApiClient(options: CreateApiOptions): void {
  * @description 在使用前必须先调用 `initApiClient` 进行初始化。
  * @example
  * // 使用标准方法
- * import { request } from '@monorepo-vue-starter/axios';
+ * import { request } from '@ethan-utils/axios';
  * const res = await request.get('/users');
  * if (res.code === 200) {
  *   console.log(res.data);

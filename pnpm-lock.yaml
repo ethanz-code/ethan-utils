@@ -14,9 +14,6 @@ importers:
       commitizen:
         specifier: ^4.3.1
         version: 4.3.1(@types/node@24.0.4)(typescript@5.8.3)
-      cowsay:
-        specifier: ^1.6.0
-        version: 1.6.0
     devDependencies:
       '@changesets/cli':
         specifier: ^2.29.5
@@ -30,6 +27,9 @@ importers:
       '@commitlint/prompt-cli':
         specifier: ^19.8.1
         version: 19.8.1(@types/node@24.0.4)(typescript@5.8.3)
+      '@ethan-utils/cowsay':
+        specifier: workspace:*
+        version: link:node-pkgs/cowsay
       '@types/node':
         specifier: ^24.0.4
         version: 24.0.4
@@ -69,6 +69,12 @@ importers:
       typescript-eslint:
         specifier: ^8.35.0
         version: 8.35.0(eslint@9.29.0(jiti@2.4.2))(typescript@5.8.3)
+
+  node-pkgs/cowsay:
+    dependencies:
+      cowsay:
+        specifier: ^1.6.0
+        version: 1.6.0
 
   packages/axios:
     dependencies:

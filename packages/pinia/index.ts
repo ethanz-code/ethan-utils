@@ -56,7 +56,7 @@ pinia.use(piniaPluginPersistedstate);
  *
  * @example
  * // 在定义 store 时使用
- * import { defineStore, persistOptions } from '@monorepo-vue-starter/pinia';
+ * import { defineStore, persistOptions } from '@ethan-utils/pinia';
  *
  * export const useUserStore = defineStore('user', {
  *   state: () => ({ name: 'John' }),
@@ -78,7 +78,7 @@ export const persistOptions = {
  * // main.ts
  * import { createApp } from 'vue';
  * import App from './App.vue';
- * import pinia from '@monorepo-vue-starter/pinia';
+ * import pinia from '@ethan-utils/pinia';
  *
  * const app = createApp(App);
  * app.use(pinia);

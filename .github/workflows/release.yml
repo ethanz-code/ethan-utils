@@ -27,7 +27,13 @@ jobs:
       - name: 安装依赖
         run: pnpm install --frozen-lockfile
 
-      - name: 发布包（changesets）
+      - name: 构建所有子包
+        run: pnpm build
+
+      - name: 版本号升级、生成 changelog、自动发布
+        uses: changesets/action@v1
+        with:
+          publish: pnpm release:only
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm release
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

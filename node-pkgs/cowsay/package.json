@@ -1,7 +1,7 @@
 {
-  "name": "@ethan-utils/pinia",
-  "version": "1.0.0",
-  "description": "封装 Pinia 状态管理库，集成持久化存储和插件支持",
+  "name": "@ethan-utils/cowsay",
+  "version": "0.9.0",
+  "description": "A simple cowsay implementation for Node.js, inspired by the classic Unix cowsay utility.",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "types/index.d.ts",
@@ -37,8 +37,6 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "pinia": "^3.0.3",
-    "pinia-plugin-persistedstate": "^4.3.0",
-    "zipson": "^0.2.12"
+    "cowsay": "^1.6.0"
   }
 }

@@ -16,11 +16,11 @@
 
 ```json
 "dependencies": {
-  "@monorepo-vue-starter/axios": "workspace:*"
+  "@ethan-utils/axios": "workspace:*"
 }
 ```
 
-然后运行 `bun install`。
+然后运行 `pnpm install`。
 
 ## 使用方法
 
@@ -30,7 +30,7 @@
 
 ```typescript
 // src/main.ts
-import { initApiClient } from "@monorepo-vue-starter/axios";
+import { initApiClient } from "@ethan-utils/axios";
 
 initApiClient({
   baseURL: "https://api.example.com",
@@ -44,7 +44,7 @@ initApiClient({
 在需要发起 API 请求的地方，导入 `request` 对象。
 
 ```typescript
-import { request } from "@monorepo-vue-starter/axios";
+import { request } from "@ethan-utils/axios";
 
 interface User {
   id: number;
@@ -77,7 +77,7 @@ async function createUser(name: string) {
 如果您的 API 端点没有遵循 `BaseResponse` 结构，可以使用 `WithoutBaseResponse` 系列方法。这些方法在成功时直接返回后端返回的 `data`，在失败时会直接抛出错误，需要您自行使用 `try...catch` 处理。
 
 ```typescript
-import { request } from "@monorepo-vue-starter/axios";
+import { request } from "@ethan-utils/axios";
 
 // 假设 /profile 直接返回用户对象
 interface Profile {
