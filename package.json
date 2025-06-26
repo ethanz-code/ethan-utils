@@ -19,11 +19,11 @@
     "release:only": "changeset publish --registry=https://registry.npmjs.com/"
   },
   "devDependencies": {
-    "@ethan-utils/cowsay": "workspace:*",
     "@changesets/cli": "^2.29.5",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@commitlint/prompt-cli": "^19.8.1",
+    "@ethan-utils/cowsay": "workspace:*",
     "@types/node": "^24.0.4",
     "eslint": "^9.29.0",
     "eslint-config-prettier": "^10.1.5",

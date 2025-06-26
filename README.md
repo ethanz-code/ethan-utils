@@ -19,7 +19,7 @@
 
 ## 贡献
 
-欢迎 issue 和 PR，详细贡献指南请见 [CONTRIBUTING.md](./CONTRIBUTING.md)（如有）。
+欢迎 issue 和 PR，详细贡献指南请见 [CONTRIBUTING.md](./CONTRIBUTING.md)。
 
 ---
 
