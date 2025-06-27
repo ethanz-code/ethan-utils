@@ -1,5 +1,11 @@
 # @ethan-utils/axios
 
+## 1.0.2
+
+### Patch Changes
+
+- a0ed8ef: Update package.json Public access and keywords
+
 ## 1.0.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@ethan-utils/pinia",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "封装 Pinia 状态管理库，集成持久化存储和插件支持",
   "main": "dist/index.js",
   "module": "dist/index.js",
