@@ -23,6 +23,18 @@
   },
   "author": "Ethan Zhang",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": [
+    "axios",
+    "http",
+    "request",
+    "utility",
+    "npm",
+    "ethan-utils"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/ethanz-code/ethan-utils.git"
