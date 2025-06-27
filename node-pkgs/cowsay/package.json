@@ -1,6 +1,6 @@
 {
   "name": "@ethan-utils/cowsay",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple cowsay implementation for Node.js, inspired by the classic Unix cowsay utility.",
   "main": "dist/index.js",
   "module": "dist/index.js",
