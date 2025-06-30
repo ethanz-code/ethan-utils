@@ -1,6 +1,6 @@
 {
   "name": "@ethan-utils/zustand",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "封装 Zustand create 函数，一个带有 immer、可选持久化（persist）和选择性订阅（subscribeWithSelector）功能的 zustand store",
   "main": "dist/index.js",
   "module": "dist/index.js",
