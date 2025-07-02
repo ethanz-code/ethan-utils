@@ -18,6 +18,8 @@
     }
   },
   "scripts": {
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
     "generate-types": "tsc --emitDeclarationOnly --declaration --declarationDir types --project tsconfig.json",
     "build": "rolldown -c rolldown.config.ts"
   },

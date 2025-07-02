@@ -6,6 +6,9 @@
   "scripts": {
     "intro": "npx tsx index.ts",
     "prepare": "husky",
+    "test": "vitest",
+    "test-pkg-axios": "vitest packages/axios",
+    "coverage": "vitest run --coverage",
     "generate-types": "pnpm -r --filter @ethan-utils/* run generate-types",
     "build:only": "pnpm -r --filter @ethan-utils/* run build",
     "build": "run-s generate-types build:only",
@@ -36,10 +39,11 @@
     "rolldown": "1.0.0-beta.20",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.35.0"
+    "typescript-eslint": "^8.35.0",
+    "vitest": "^3.2.4",
+    "commitizen": "^4.3.1"
   },
   "dependencies": {
-    "chalk": "^5.4.1",
-    "commitizen": "^4.3.1"
+    "chalk": "^5.4.1"
   }
 }

@@ -22,11 +22,20 @@
 4. `generate-types` 和 `build` 脚本分别用于生成类型文件，Maps，打包代码。
 5. 按照项目规范开发并构建发布。
 
+**测试说明：**
+
+- 本仓库已集成 [vitest](https://vitest.dev/) 作为单元测试工具，推荐在实现模块功能后为其编写测试用例。
+- 常用测试相关 script：
+  - `pnpm test`：运行所有测试用例。
+  - `pnpm test-pkg-axios`：仅测试 packages/axios 包。
+  - `pnpm coverage`：生成测试覆盖率报告。
+
 ## 依赖与开发
 
 - 包管理工具：pnpm
 - 代码规范：ESLint、Prettier、Commitlint
 - 构建工具：Rolldown、tsc
+- 测试工具：Vitest
 - 其他依赖详见 package.json
 
 ## 贡献
