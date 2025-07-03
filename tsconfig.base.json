@@ -28,6 +28,8 @@
     "lib": ["ESNext", "DOM"],
     "module": "ESNext",
     "target": "ESNext",
-    "moduleResolution": "Node" // 模块解析方式，采用 Node.js 兼容的解析规则，适用于大多数现代项目
+    "moduleResolution": "Node", // 模块解析方式，采用 Node.js 兼容的解析规则，适用于大多数现代项目
+
+    "types": ["vitest"]
   }
 }
