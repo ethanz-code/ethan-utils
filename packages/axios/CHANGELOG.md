@@ -1,5 +1,11 @@
 # @ethan-utils/axios
 
+## 2.0.1
+
+### Patch Changes
+
+- dbeaaa7: 更新文档和注释
+
 ## 2.0.0
 
 ### Major Changes
