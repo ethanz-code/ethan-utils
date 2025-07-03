@@ -1,114 +1,153 @@
-# Axios 封装
+# @ethan-utils/axios
 
-该包对 `axios` 进行了封装，提供了统一的 API 请求客户端。
+高可用 axios 请求库，支持全局配置、请求拦截、响应拦截、自动重试、Token 注入、401 回调等功能，适用于前后端分离项目的 API 请求统一管理。
 
 ## 特性
 
-- 单例模式：通过 `initApiClient` 初始化，全局共享一个 `axios` 实例。
-- 统一响应格式：默认请求方法返回 `BaseResponse<T>` 格式的数据。
-- 统一错误处理：自动捕获请求错误并返回标准化的错误响应。
-- TypeScript 支持：提供完整的类型定义。
-- 提供不包装响应体的方法：为特殊场景，提供了 `...WithoutBaseResponse` 系列方法。
+- **单例/多实例模式**：支持全局单例和多实例灵活切换。
+- **标准响应与原始响应**：所有请求方法分为标准响应（`BaseResponse`）和原始响应（`raw`）两类。
+- **自动重试**：网络错误和 5xx 状态自动重试。
+- **Token 注入**：支持动态获取 Token 并自动注入请求头。
+- **401 回调**：支持未授权自动回调处理。
+- **TypeScript 完全类型支持**。
 
 ## 安装
 
-由于是在 monorepo 环境中，您可以直接在其他包的 `package.json` 中添加依赖：
+建议使用 pnpm 进行依赖管理：
 
-```json
-"dependencies": {
-  "@ethan-utils/axios": "workspace:*"
-}
+```sh
+pnpm add @ethan-utils/axios axios axios-retry qs
 ```
 
-然后运行 `pnpm install`。
+> 依赖：axios、axios-retry、qs
 
-## 使用方法
+## 快速上手
 
-### 1. 初始化
+### 1. 初始化全局请求客户端
 
-在应用入口处（例如 `main.ts` 或 `app.ts`），调用 `initApiClient` 来初始化请求客户端。
+在应用入口（如 `main.ts` 或 `app.ts`）调用 `createRequest` 并设置为全局单例（默认即可），否则后续调用 `request` 会抛出错误。
 
 ```typescript
-// src/main.ts
-import { initApiClient } from "@ethan-utils/axios";
+import { createRequest, request } from "@ethan-utils/axios";
 
-initApiClient({
+createRequest({
   baseURL: "https://api.example.com",
   timeout: 10000,
-  // 其他 axios 配置
+  getToken: () => localStorage.getItem("token"), // 可选，自动注入 Authorization
+  onUnauthorized: () => {
+    // 可选，401 未授权时的处理
+    window.location.href = "/login";
+  },
 });
+
+// 之后可直接使用 request 进行请求
 ```
 
 ### 2. 发起请求
 
-在需要发起 API 请求的地方，导入 `request` 对象。
-
 ```typescript
 import { request } from "@ethan-utils/axios";
 
-interface User {
-  id: number;
-  name: string;
+// 标准响应（BaseResponse）
+const res = await request.get<User>("/users/1");
+if (res.code === 200) {
+  console.log(res.data);
+} else {
+  console.error(res.msg);
 }
 
-// GET 请求
-async function getUser(id: number) {
-  const res = await request.get<User>(`/users/${id}`);
-  if (res.code === 200) {
-    console.log(res.data); // { id: 1, name: 'John Doe' }
-  } else {
-    console.error(res.msg);
-  }
-}
-
-// POST 请求
-async function createUser(name: string) {
-  const res = await request.post<{ success: boolean }>("/users", { name });
-  if (res.code === 201) {
-    console.log("User created");
-  } else {
-    console.error(res.msg);
-  }
+// 原始响应（遇到错误直接抛出异常）
+try {
+  const user = await request.raw.get<User>("/users/1");
+  console.log(user);
+} catch (e) {
+  // 需自行处理异常
 }
 ```
 
-### 3. 使用不带 BaseResponse 的方法
+### 3. 多实例用法
 
-如果您的 API 端点没有遵循 `BaseResponse` 结构，可以使用 `WithoutBaseResponse` 系列方法。这些方法在成功时直接返回后端返回的 `data`，在失败时会直接抛出错误，需要您自行使用 `try...catch` 处理。
+如需隔离不同 API 客户端，可用 `createRequest` 创建多实例：
 
 ```typescript
-import { request } from "@ethan-utils/axios";
+import { createRequest } from "@ethan-utils/axios";
 
-// 假设 /profile 直接返回用户对象
-interface Profile {
-  username: string;
-  email: string;
+const api1 = createRequest({ baseURL: "https://api1.com" }, false); // 新实例
+const api2 = createRequest({ baseURL: "https://api2.com" }, false);
+
+const res1 = await api1.get<any>("/foo");
+const res2 = await api2.get<any>("/bar");
+```
+
+## API 说明
+
+### 初始化
+
+- `createRequest(options: CreateApiOptions, isSingleton = true)`：创建请求客户端，`isSingleton` 为 true 时返回全局单例，否则每次返回新实例。**如需初始化全局 request，直接调用一次即可。**
+- `request`：全局请求客户端代理，需先用 `createRequest` 初始化。
+
+### 请求方法
+
+所有方法均支持标准响应（BaseResponse）和原始响应（raw）：
+
+- `get<T>(url, config?)`
+- `post<T>(url, data?, config?)`
+- `put<T>(url, data?, config?)`
+- `delete<T>(url, config?)`
+- `patch<T>(url, data?, config?)`
+
+原始响应方法通过 `raw` 命名空间调用：
+
+- `raw.get<T>(url, config?)`
+- `raw.post<T>(url, data?, config?)`
+- `raw.put<T>(url, data?, config?)`
+- `raw.delete<T>(url, config?)`
+- `raw.patch<T>(url, data?, config?)`
+
+#### 返回值说明
+
+- 标准响应：`Promise<BaseResponse<T>>`，失败时 code 非 200/201，data 为 null，msg 为错误信息。
+- 原始响应：`Promise<T>`，失败时直接抛出异常。
+
+### 类型定义
+
+```typescript
+/**
+ * 标准化 API 响应结构
+ */
+export interface BaseResponse<T> {
+  data: T; // 实际数据
+  msg: string; // 提示信息
+  code: number; // 业务状态码
 }
 
-async function getProfile() {
-  try {
-    const profile = await request.getWithoutBaseResponse<Profile>("/profile");
-    console.log(profile.username);
-  } catch (error) {
-    // 自行处理错误
-    console.error("Failed to fetch profile:", error);
-  }
+/**
+ * 创建 API 实例的配置选项
+ */
+export interface CreateApiOptions {
+  baseURL: string; // API 的基础 URL
+  getToken?: () => string | null; // 获取认证令牌的函数
+  onUnauthorized?: () => void; // 401 未授权时的回调
+  timeout?: number; // 请求超时时间
 }
 ```
 
-## API
+## 注意事项
 
-`request` 对象包含以下方法:
+- **必须先初始化**：未初始化直接调用 `request` 会抛出 `API client has not been initialized. Please call createRequest() first.`
+- **Token 自动注入**：如需自动携带 token，传入 `getToken`。
+- **401 处理**：如需自动跳转登录等，传入 `onUnauthorized`。
+- **自动重试**：网络错误和 5xx 状态自动重试 3 次。
+- **request.r**：`request` 还有一个简写别名 `r`，用法一致。
 
-- `get<T>(url, config)`
-- `getWithoutBaseResponse<T>(url, config)`
-- `post<T>(url, data, config)`
-- `postWithoutBaseResponse<T>(url, data, config)`
-- `put<T>(url, data, config)`
-- `putWithoutBaseResponse<T>(url, data, config)`
-- `delete<T>(url, config)`
-- `deleteWithoutBaseResponse<T>(url, config)`
-- `patch<T>(url, data, config)`
-- `patchWithoutBaseResponse<T>(url, data, config)`
+## 依赖
 
-所有被 `BaseResponse` 包装的方法，当请求失败时，会返回一个 `BaseResponse` 对象，其中 `code` 通常不为 200 或 201 等成功状态码，`data` 为 `null`，`msg` 包含错误信息。
+- axios
+- axios-retry
+- qs
+
+## 贡献与反馈
+
+如有问题或建议，欢迎提 issue 或 PR。
+
+- 仓库地址：https://github.com/ethanz-code/ethan-utils

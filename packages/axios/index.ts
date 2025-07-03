@@ -195,7 +195,7 @@ export function createRequest(
 }
 
 /**
- * 全局请求客户端，需先调用 initApiClient 初始化
+ * 全局请求客户端，需先调用 createRequest 初始化
  * - request.get/post/put/delete/patch 返回 BaseResponse
  * - request.raw.get/post/put/delete/patch 返回原始 data，失败抛出异常
  */
@@ -205,7 +205,7 @@ export const request = new Proxy(
     get(_, prop: string) {
       if (!apiClientInstance) {
         throw new Error(
-          "API client has not been initialized. Please call initApiClient() first.",
+          "API client has not been initialized. Please call createRequest() first.",
         );
       }
       return Reflect.get(apiClientInstance, prop);
