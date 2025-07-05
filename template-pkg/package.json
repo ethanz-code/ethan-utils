@@ -2,6 +2,7 @@
   "name": "@ethan-utils/template-pkg",
   "version": "0.0.0",
   "description": "模板包描述信息",
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "types/index.d.ts",
@@ -21,7 +22,7 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "generate-types": "tsc --emitDeclarationOnly --declaration --declarationDir types --project tsconfig.json",
-    "build": "rolldown -c rolldown.config.ts"
+    "build": "rolldown -c rolldown.config.ts && pnpm generate-types"
   },
   "author": "Ethan Zhang",
   "license": "MIT",

@@ -2,6 +2,7 @@
   "name": "@ethan-utils/axios",
   "version": "2.0.1",
   "description": "封装的高可用性axios请求库，支持全局配置、请求拦截、响应拦截等功能",
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "types/index.d.ts",
@@ -21,7 +22,7 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "generate-types": "tsc --emitDeclarationOnly --declaration --declarationDir types --project tsconfig.json",
-    "build": "rolldown -c rolldown.config.ts"
+    "build": "rolldown -c rolldown.config.ts && pnpm generate-types"
   },
   "author": "Ethan Zhang",
   "license": "MIT",

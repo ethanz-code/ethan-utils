@@ -2,6 +2,7 @@
   "name": "@ethan-utils/zustand",
   "version": "1.0.0",
   "description": "封装 Zustand create 函数，一个带有 immer、可选持久化（persist）和选择性订阅（subscribeWithSelector）功能的 zustand store",
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "types/index.d.ts",
@@ -19,7 +20,7 @@
   },
   "scripts": {
     "generate-types": "tsc --emitDeclarationOnly --declaration --declarationDir types --project tsconfig.json",
-    "build": "rolldown -c rolldown.config.ts"
+    "build": "rolldown -c rolldown.config.ts && pnpm generate-types"
   },
   "author": "Ethan Zhang",
   "license": "MIT",
