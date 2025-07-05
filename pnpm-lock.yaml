@@ -85,8 +85,8 @@ importers:
   node-pkgs/pay-gateway:
     dependencies:
       '@ethan-utils/axios':
-        specifier: ^1.0.2
-        version: 1.0.2
+        specifier: ^2.0.1
+        version: 2.0.1
       crypto-js:
         specifier: ^4.2.0
         version: 4.2.0
@@ -152,12 +152,21 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+  '@babel/parser@7.28.0':
+    resolution: {integrity: sha512-jVZGvOxOuNSsuQuLRTh13nU0AogFlw32w/MT+LV6D3sP5WdbW61E77RnkbaO2dUvmPAYrBDJXGn5gGS6tH4j8g==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
   '@babel/runtime@7.27.6':
     resolution: {integrity: sha512-vbavdySgbTTrmFE+EsiqUTzlOr5bzlnJtUv9PynGCAKvfQqjIXbvFdumPM/GxMDfyuGMJaJAU6TO4zc1Jf1i8Q==}
     engines: {node: '>=6.9.0'}
 
   '@babel/types@7.27.7':
     resolution: {integrity: sha512-8OLQgDScAOHXnAz2cV+RfzzNMipuLVBz2biuAJFMV9bfkNf393je3VM8CLkjQodW5+iWsSJdSgSWT6rsZoXHPw==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/types@7.28.0':
+    resolution: {integrity: sha512-jYnje+JyZG5YThjHiF28oT4SIZLnYOcSBb6+SDaFIyzDVSkXQmQQYclJ2R+YxcdmK0AX6x1E5OQNtuh3jHDrUg==}
     engines: {node: '>=6.9.0'}
 
   '@bcoe/v8-coverage@1.0.2':
@@ -498,8 +507,8 @@ packages:
     resolution: {integrity: sha512-4SaFZCNfJqvk/kenHpI8xvN42DMaoycy4PzKc5otHxRswww1kAt82OlBuwRVLofCACCTZEcla2Ydxv8scMXaTg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@ethan-utils/axios@1.0.2':
-    resolution: {integrity: sha512-ZIlsY3rU14F+JaJlLupANd5KcPrfPjm0C03Z/XFq7Too3J9mrjRMx/PyWAANDewLSYdiVx8kxvpVvsBeRn8IKg==}
+  '@ethan-utils/axios@2.0.1':
+    resolution: {integrity: sha512-8swQHK6ga24mwj+gE+wWS+DjmuKmLLJRgqRdsGPkCKglw6UPtjvHyZrryslBaybnPDIIuaJjDuMELegbDbeKzg==}
     engines: {node: '>=18'}
 
   '@humanfs/core@0.19.1':
@@ -2918,9 +2927,18 @@ snapshots:
     dependencies:
       '@babel/types': 7.27.7
 
+  '@babel/parser@7.28.0':
+    dependencies:
+      '@babel/types': 7.28.0
+
   '@babel/runtime@7.27.6': {}
 
   '@babel/types@7.27.7':
+    dependencies:
+      '@babel/helper-string-parser': 7.27.1
+      '@babel/helper-validator-identifier': 7.27.1
+
+  '@babel/types@7.28.0':
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
@@ -3338,7 +3356,7 @@ snapshots:
       '@eslint/core': 0.15.0
       levn: 0.4.1
 
-  '@ethan-utils/axios@1.0.2':
+  '@ethan-utils/axios@2.0.1':
     dependencies:
       axios: 1.10.0
       axios-retry: 4.5.0(axios@1.10.0)
@@ -3763,7 +3781,7 @@ snapshots:
 
   '@vue/compiler-core@3.5.17':
     dependencies:
-      '@babel/parser': 7.27.7
+      '@babel/parser': 7.28.0
       '@vue/shared': 3.5.17
       entities: 4.5.0
       estree-walker: 2.0.2
@@ -3776,7 +3794,7 @@ snapshots:
 
   '@vue/compiler-sfc@3.5.17':
     dependencies:
-      '@babel/parser': 7.27.7
+      '@babel/parser': 7.28.0
       '@vue/compiler-core': 3.5.17
       '@vue/compiler-dom': 3.5.17
       '@vue/compiler-ssr': 3.5.17

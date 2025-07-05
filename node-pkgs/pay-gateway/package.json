@@ -1,0 +1,59 @@
+{
+  "name": "@ethan-utils/pay-gateway",
+  "version": "0.9.0",
+  "description": "蓝兔支付，7Pay 等多种第三方支付的网关工具包",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "types/index.d.ts",
+  "files": [
+    "dist",
+    "types",
+    "README.md",
+    "USAGE.md"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./types/index.d.ts"
+    },
+    "./7pay": {
+      "import": "./dist/pay/sevenPay.js",
+      "types": "./types/7pay/index.d.ts"
+    },
+    "./ltzf": {
+      "import": "./dist/pay/ltzf.js",
+      "types": "./types/ltzf/index.d.ts"
+    }
+  },
+  "scripts": {
+    "generate-types": "tsc --emitDeclarationOnly --declaration --declarationDir types --project tsconfig.json",
+    "build": "rolldown -c rolldown.config.ts && pnpm generate-types"
+  },
+  "author": "Ethan Zhang",
+  "license": "MIT",
+  "keywords": [
+    "utility",
+    "npm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ethanz-code/ethan-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ethanz-code/ethan-utils/issues"
+  },
+  "homepage": "https://github.com/ethanz-code/ethan-utils#readme",
+  "packageManager": "pnpm@10.12.1",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@ethan-utils/axios": "^2.0.1",
+    "crypto-js": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2"
+  }
+}

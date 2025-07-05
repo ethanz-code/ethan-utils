@@ -1,0 +1,8 @@
+{
+  "extends": ["../../tsconfig.base.json"],
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "."
+  },
+  "include": ["index.ts", "7pay/index.ts", "ltzf/index.ts", "**/*.d.ts"]
+}
