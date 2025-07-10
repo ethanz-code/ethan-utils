@@ -10,6 +10,7 @@
     "test-pkg-axios": "vitest packages/axios",
     "coverage": "vitest run --coverage",
     "build": "pnpm -r --filter @ethan-utils/* run build",
+    "clean": "rimraf {packages,node-pkgs}/*/{dist,types,coverage}",
     "changeset": "changeset",
     "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
     "lint:eslint": "eslint . --fix",
