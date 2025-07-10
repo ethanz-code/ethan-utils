@@ -1,6 +1,6 @@
 # @ethan-utils/axios
 
-高可用 axios 请求库，支持全局配置、请求拦截、响应拦截、自动重试、Token 注入、401 回调等功能，适用于前后端分离项目的 API 请求统一管理。
+高可用 axios 请求库，支持全局配置、插件扩展、请求拦截、响应拦截、自动重试、Token 注入、401 回调等功能，适用于前后端分离项目的 API 请求统一管理。
 
 ## 特性
 
@@ -16,7 +16,7 @@
 建议使用 pnpm 进行依赖管理：
 
 ```sh
-pnpm add @ethan-utils/axios axios axios-retry qs
+pnpm add @ethan-utils/axios
 ```
 
 > 依赖：axios、axios-retry、qs
@@ -132,13 +132,43 @@ export interface CreateApiOptions {
 }
 ```
 
-## 注意事项
+## 插件扩展
 
-- **必须先初始化**：未初始化直接调用 `request` 会抛出 `API client has not been initialized. Please call createRequest() first.`
-- **Token 自动注入**：如需自动携带 token，传入 `getToken`。
-- **401 处理**：如需自动跳转登录等，传入 `onUnauthorized`。
-- **自动重试**：网络错误和 5xx 状态自动重试 3 次。
-- **request.r**：`request` 还有一个简写别名 `r`，用法一致。
+本库支持通过插件机制扩展 axios 实例能力，所有插件均可通过 `api.use(plugin, options)` 注册。
+
+### 1. 限制请求体大小插件（limitBodySize）
+
+用于限制 post/put/patch 请求体的最大字节数，防止大文件或超大数据误提交。
+
+```typescript
+import { createRequest } from "@ethan-utils/axios";
+import { limitBodySize } from "@ethan-utils/axios/plugins/limitBodySize";
+
+const api = createRequest({ baseURL: "..." }, false);
+api.use(limitBodySize.limitBodySizePlugin, {
+  maxBodySize: 2 * 1024 * 1024, // 最大 2MB
+  onLimit: (msg, config) => {
+    alert(msg);
+  },
+});
+```
+
+### 2. 防重复提交插件（preventRepeat）
+
+用于防止表单等接口在短时间内重复提交。
+
+```typescript
+import { createRequest } from "@ethan-utils/axios";
+import { preventRepeat } from "@ethan-utils/axios/plugins/preventRepeat";
+
+const api = createRequest({ baseURL: "..." }, false);
+api.use(preventRepeat.preventRepeatPlugin, {
+  interval: 1500, // 1.5 秒内重复提交会被拦截
+  onRepeat: (msg, config) => {
+    alert(msg);
+  },
+});
+```
 
 ## 依赖
 

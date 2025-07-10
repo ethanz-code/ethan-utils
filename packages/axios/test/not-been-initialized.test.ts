@@ -5,6 +5,6 @@ import { request } from "../index";
 
 test("未初始化时调用 request.get 抛出错误", async () => {
   await expect(() => request.get("/test")).toThrowError(
-    "API client has not been initialized. Please call initApiClient() first.",
+    "API client has not been initialized. Please call createRequest() first.",
   );
 });

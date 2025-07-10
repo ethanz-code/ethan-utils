@@ -3,26 +3,35 @@
   "version": "2.0.1",
   "description": "封装的高可用性axios请求库，支持全局配置、请求拦截、响应拦截等功能",
   "type": "module",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "types/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "types",
-    "README.md"
+    "dist"
   ],
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.js",
-      "types": "./types/index.d.ts"
+      "types": "./dist/index.d.ts"
+    },
+    "./plugins/limitBodySize": {
+      "import": "./dist/plugins/limitBodySize.js",
+      "require": "./dist/plugins/limitBodySize.js",
+      "types": "./dist/plugins/limitBodySize.d.ts"
+    },
+    "./plugins/preventRepeat": {
+      "import": "./dist/plugins/preventRepeat.js",
+      "require": "./dist/plugins/preventRepeat.js",
+      "types": "./dist/plugins/preventRepeat.d.ts"
     }
   },
   "scripts": {
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "generate-types": "tsc --emitDeclarationOnly --declaration --declarationDir types --project tsconfig.json",
-    "build": "rolldown -c rolldown.config.ts && pnpm generate-types"
+    "generate-types": "tsc --project tsconfig.json",
+    "build": "rolldown -c rolldown.config.ts && pnpm generate-types",
+    "clean": "rimraf dist"
   },
   "author": "Ethan Zhang",
   "license": "MIT",

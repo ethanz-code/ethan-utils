@@ -29,12 +29,20 @@ export interface CreateApiOptions {
   timeout?: number;
 }
 
+// 插件类型
+export type AxiosPlugin<T = any> = (api: AxiosInstance, options?: T) => void;
+
+// 扩展 AxiosInstance
+export interface AxiosInstanceWithUse extends AxiosInstance {
+  use<T>(plugin: AxiosPlugin<T>, opts?: T): void;
+}
+
 /**
  * 创建一个配置好的 Axios 实例
  * @param {CreateApiOptions} options - API 客户端的配置选项
- * @returns {AxiosInstance} 返回一个集成了请求重试、请求头注入和响应拦截的 Axios 实例
+ * @returns {AxiosInstanceWithUse} 返回一个集成了请求重试、请求头注入和响应拦截的 Axios 实例
  */
-export function createApi(options: CreateApiOptions): AxiosInstance {
+export function createApi(options: CreateApiOptions): AxiosInstanceWithUse {
   const headers = {
     "Content-Type": "application/json",
     ...(options.getToken && {
@@ -53,7 +61,12 @@ export function createApi(options: CreateApiOptions): AxiosInstance {
     },
   };
 
-  const api = axios.create(axiosConfig);
+  const api = axios.create(axiosConfig) as AxiosInstanceWithUse;
+
+  // 插件注册并立即执行
+  api.use = function <T>(plugin: AxiosPlugin<T>, opts?: T) {
+    plugin(api, opts);
+  };
 
   axiosRetry(api, {
     retries: 3, // 设置重试次数
