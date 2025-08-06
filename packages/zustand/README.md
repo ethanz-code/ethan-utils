@@ -2,6 +2,19 @@
 
 > 封装 Zustand create 函数，一个带有 immer、可选持久化（persist）和选择性订阅（subscribeWithSelector）功能的 zustand store 工具。
 
+## 版本支持
+
+- **React 17+**：当前版本支持 React 17 及以上版本
+- **React 18+**：如需 React 18+ 专用版本，请安装 `@ethan-utils/zustand@react18`
+
+```bash
+# 默认安装（支持 React 17+）
+pnpm add @ethan-utils/zustand
+
+# React 18+ 专用版本
+pnpm add @ethan-utils/zustand@react18
+```
+
 ## 特性
 
 - **内置 immer**：支持对嵌套状态的不可变更新，书写更简洁。
@@ -156,7 +169,15 @@ unsub();
 
 ## 依赖说明
 
-- [zustand](https://github.com/pmndrs/zustand)
+- [zustand](https://github.com/pmndrs/zustand) v4.5.7 - 为了支持 React 17+
+- React >=17.0.0 - 支持 React 17 及以上版本
+
+### 版本对比
+
+| 包版本  | React 支持 | Zustand 版本 | 说明                              |
+| ------- | ---------- | ------------ | --------------------------------- |
+| v1.1.0+ | React 17+  | v4.5.7       | 向下兼容，支持更广泛的 React 版本 |
+| v1.0.0  | React 18+  | v5.0.6       | 最新特性，更小的包体积            |
 
 ## License
 

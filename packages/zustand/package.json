@@ -1,7 +1,7 @@
 {
   "name": "@ethan-utils/zustand",
   "version": "1.0.0",
-  "description": "封装 Zustand create 函数，一个带有 immer、可选持久化（persist）和选择性订阅（subscribeWithSelector）功能的 zustand store",
+  "description": "封装 Zustand create 函数，一个带有 immer、可选持久化（persist）和选择性订阅（subscribeWithSelector）功能的 zustand store，支持 React 17+",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -46,6 +46,9 @@
     "node": ">=18"
   },
   "dependencies": {
-    "zustand": "^5.0.6"
+    "zustand": "^4.5.7"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0"
   }
 }
