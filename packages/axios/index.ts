@@ -8,7 +8,7 @@ import { createApi, type CreateApiOptions } from "./base";
  */
 export interface BaseResponse<T> {
   data: T; // 实际数据
-  msg: string; // 提示信息
+  message: string; // 提示信息
   code: number; // 业务状态码
 }
 
@@ -26,7 +26,7 @@ const formatError = <T>(error: unknown): BaseResponse<T> => {
     }
     // 否则，构造一个标准的错误响应
     return {
-      msg: axiosError.message || "请求发生错误",
+      message: axiosError.message || "请求发生错误",
       code: axiosError.response?.status || 500,
       data: null,
     } as BaseResponse<T>;
@@ -34,14 +34,14 @@ const formatError = <T>(error: unknown): BaseResponse<T> => {
 
   if (error instanceof Error) {
     return {
-      msg: error.message,
+      message: error.message,
       code: 500,
       data: null,
     } as BaseResponse<T>;
   }
 
   return {
-    msg: "未知错误",
+    message: "未知错误",
     code: 500,
     data: null,
   } as BaseResponse<T>;

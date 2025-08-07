@@ -53,7 +53,7 @@ const res = await request.get<User>("/users/1");
 if (res.code === 200) {
   console.log(res.data);
 } else {
-  console.error(res.msg);
+  console.error(res.message);
 }
 
 // 原始响应（遇到错误直接抛出异常）
@@ -106,7 +106,7 @@ const res2 = await api2.get<any>("/bar");
 
 #### 返回值说明
 
-- 标准响应：`Promise<BaseResponse<T>>`，失败时 code 非 200/201，data 为 null，msg 为错误信息。
+- 标准响应：`Promise<BaseResponse<T>>`，失败时 code 非 200/201，data 为 null，message 为错误信息。
 - 原始响应：`Promise<T>`，失败时直接抛出异常。
 
 ### 类型定义
@@ -117,7 +117,7 @@ const res2 = await api2.get<any>("/bar");
  */
 export interface BaseResponse<T> {
   data: T; // 实际数据
-  msg: string; // 提示信息
+  message: string; // 提示信息
   code: number; // 业务状态码
 }
 
