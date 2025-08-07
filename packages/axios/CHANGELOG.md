@@ -1,5 +1,11 @@
 # @ethan-utils/axios
 
+## 2.2.0
+
+### Minor Changes
+
+- 2f1a474: 修改基础响应结构 msg -> message
+
 ## 2.1.0
 
 ### Minor Changes
