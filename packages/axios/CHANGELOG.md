@@ -1,5 +1,14 @@
 # @ethan-utils/axios
 
+## 2.3.0
+
+### Minor Changes
+
+- 7edaf26: refactor(axios)：改进令牌处理和重试逻辑
+  - 将标记注入从静态头移至请求拦截器，以便动态处理
+  - 更新重试条件，明确检查网络错误、可重试错误和 5xx 状态代码
+  - 更新文档以明确令牌格式预期
+
 ## 2.2.0
 
 ### Minor Changes
