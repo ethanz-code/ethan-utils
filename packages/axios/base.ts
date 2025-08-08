@@ -45,9 +45,6 @@ export interface AxiosInstanceWithUse extends AxiosInstance {
 export function createApi(options: CreateApiOptions): AxiosInstanceWithUse {
   const headers = {
     "Content-Type": "application/json",
-    ...(options.getToken && {
-      Authorization: `Bearer ${options.getToken()}`,
-    }),
   };
 
   const axiosConfig: CreateAxiosDefaults = {
@@ -63,20 +60,34 @@ export function createApi(options: CreateApiOptions): AxiosInstanceWithUse {
 
   const api = axios.create(axiosConfig) as AxiosInstanceWithUse;
 
-  // 插件注册并立即执行
-  api.use = function <T>(plugin: AxiosPlugin<T>, opts?: T) {
+  // 添加 use 方法
+  api.use = function <T>(plugin: AxiosPlugin<T>, opts?: T): void {
     plugin(api, opts);
   };
 
+  // 添加请求拦截器来动态设置 token
+  if (options.getToken) {
+    api.interceptors.request.use((config) => {
+      const token = options.getToken!();
+      if (token) {
+        config.headers.Authorization = token;
+      }
+      return config;
+    });
+  }
+
+  // 配置重试
   axiosRetry(api, {
-    retries: 3, // 设置重试次数
-    retryDelay: (retryCount: number) => {
-      // 设置重试延迟
+    retries: 3,
+    retryDelay: (retryCount) => {
       return retryCount * 1000;
     },
     retryCondition: (error: AxiosError) => {
-      // 默认情况下，网络错误和 5xx 状态码会触发重试
-      return axiosRetry.isNetworkOrIdempotentRequestError(error);
+      return (
+        axiosRetry.isNetworkError(error) ||
+        axiosRetry.isRetryableError(error) ||
+        (error.response?.status !== undefined && error.response.status >= 500)
+      );
     },
   });
 

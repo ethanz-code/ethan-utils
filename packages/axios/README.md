@@ -7,7 +7,7 @@
 - **单例/多实例模式**：支持全局单例和多实例灵活切换。
 - **标准响应与原始响应**：所有请求方法分为标准响应（`BaseResponse`）和原始响应（`raw`）两类。
 - **自动重试**：网络错误和 5xx 状态自动重试。
-- **Token 注入**：支持动态获取 Token 并自动注入请求头。
+- **Token 注入**：支持动态获取 Token 并自动注入请求头（每次请求时动态获取）。
 - **401 回调**：支持未授权自动回调处理。
 - **TypeScript 完全类型支持**。
 
@@ -33,7 +33,10 @@ import { createRequest, request } from "@ethan-utils/axios";
 createRequest({
   baseURL: "https://api.example.com",
   timeout: 10000,
-  getToken: () => localStorage.getItem("token"), // 可选，自动注入 Authorization
+  getToken: () => {
+    const token = localStorage.getItem("token");
+    return token ? `Bearer ${token}` : null; // 返回完整的 Authorization 头值
+  },
   onUnauthorized: () => {
     // 可选，401 未授权时的处理
     window.location.href = "/login";
@@ -126,7 +129,7 @@ export interface BaseResponse<T> {
  */
 export interface CreateApiOptions {
   baseURL: string; // API 的基础 URL
-  getToken?: () => string | null; // 获取认证令牌的函数
+  getToken?: () => string | null; // 获取认证令牌的函数（返回完整的 Authorization 头值，如 "Bearer xxx" 或 "Token xxx"）
   onUnauthorized?: () => void; // 401 未授权时的回调
   timeout?: number; // 请求超时时间
 }
