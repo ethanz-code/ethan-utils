@@ -1,0 +1,10 @@
+{
+  "name": "pay-gateway-test",
+  "version": "1.0.0",
+  "description": "Test environment for pay-gateway module",
+  "type": "commonjs",
+  "scripts": {
+    "test:cjs": "node commonjs-test.js",
+    "test:esm": "node esm-test.mjs"
+  }
+}
