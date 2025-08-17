@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.1.0
+
+### Minor Changes
+
+- 0b15508: 支持 commonjs 项目
+
 ## 1.0.0
 
 ### Major Changes
