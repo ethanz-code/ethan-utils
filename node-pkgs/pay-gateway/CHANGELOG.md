@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.1.3
+
+### Patch Changes
+
+- 8f5d529: 修复一些问题
+
 ## 1.1.2
 
 ### Patch Changes
