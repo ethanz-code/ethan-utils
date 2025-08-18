@@ -381,8 +381,9 @@ export async function scanPay(params: LTZF.Params.ScanPayInput) {
   const mch_id = ltzfConfig.mch_id;
   const notify_url = ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
+  const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
-    { ...params, mch_id, notify_url, developer_appid },
+    { ...params, mch_id, notify_url, developer_appid, timestamp },
     "scanPay",
   );
   const sign = signParams(filteredParams);
@@ -391,9 +392,20 @@ export async function scanPay(params: LTZF.Params.ScanPayInput) {
     mch_id,
     notify_url,
     developer_appid,
+    timestamp,
     sign,
   };
-  return ltzfApi.post<LTZF.Response.ScanPay>("/api/wxpay/native", reqParams);
+  const urlParams = new URLSearchParams();
+  Object.entries(reqParams).forEach(([k, v]) => {
+    if (v !== undefined) urlParams.append(k, String(v));
+  });
+  return ltzfApi.raw.post<LTZF.Response.ScanPay>(
+    "/api/wxpay/native",
+    urlParams,
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    },
+  );
 }
 
 /**
@@ -407,8 +419,9 @@ export async function h5Pay(params: LTZF.Params.H5PayInput) {
   const notify_url = ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
   const return_url = ltzfConfig.returnUrl;
+  const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
-    { ...params, mch_id, notify_url, developer_appid, return_url },
+    { ...params, mch_id, notify_url, developer_appid, return_url, timestamp },
     "h5Pay",
   );
   const sign = signParams(filteredParams);
@@ -418,9 +431,16 @@ export async function h5Pay(params: LTZF.Params.H5PayInput) {
     notify_url,
     developer_appid,
     return_url,
+    timestamp,
     sign,
   };
-  return ltzfApi.post<LTZF.Response.H5Pay>("/api/wxpay/wap", reqParams);
+  const urlParams = new URLSearchParams();
+  Object.entries(reqParams).forEach(([k, v]) => {
+    if (v !== undefined) urlParams.append(k, String(v));
+  });
+  return ltzfApi.raw.post<LTZF.Response.H5Pay>("/api/wxpay/wap", urlParams, {
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  });
 }
 
 /**
@@ -435,6 +455,7 @@ export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
   const developer_appid = ltzfConfig.developerAppid;
   const quit_url = undefined;
   const return_url = ltzfConfig.returnUrl;
+  const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
     {
       ...params,
@@ -443,6 +464,7 @@ export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
       developer_appid,
       quit_url,
       return_url,
+      timestamp,
     },
     "h5JumpPay",
   );
@@ -454,9 +476,20 @@ export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
     developer_appid,
     quit_url,
     return_url,
+    timestamp,
     sign,
   };
-  return ltzfApi.post<LTZF.Response.H5JumpPay>("/api/wxpay/jump_h5", reqParams);
+  const urlParams = new URLSearchParams();
+  Object.entries(reqParams).forEach(([k, v]) => {
+    if (v !== undefined) urlParams.append(k, String(v));
+  });
+  return ltzfApi.raw.post<LTZF.Response.H5JumpPay>(
+    "/api/wxpay/jump_h5",
+    urlParams,
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    },
+  );
 }
 
 /**
@@ -470,6 +503,7 @@ export async function jsapiPay(params: LTZF.Params.JsapiPayInput) {
   const notify_url = ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
   const return_url = ltzfConfig.returnUrl;
+  const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
     {
       ...params,
@@ -477,6 +511,7 @@ export async function jsapiPay(params: LTZF.Params.JsapiPayInput) {
       notify_url,
       developer_appid,
       return_url,
+      timestamp,
     },
     "jsapiPay",
   );
@@ -487,9 +522,20 @@ export async function jsapiPay(params: LTZF.Params.JsapiPayInput) {
     notify_url,
     developer_appid,
     return_url,
+    timestamp,
     sign,
   };
-  return ltzfApi.post<LTZF.Response.JsapiPay>("/api/wxpay/jsapi", reqParams);
+  const urlParams = new URLSearchParams();
+  Object.entries(reqParams).forEach(([k, v]) => {
+    if (v !== undefined) urlParams.append(k, String(v));
+  });
+  return ltzfApi.raw.post<LTZF.Response.JsapiPay>(
+    "/api/wxpay/jsapi",
+    urlParams,
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    },
+  );
 }
 
 /**
@@ -505,6 +551,7 @@ export async function jsapiConvenientPay(
   const notify_url = ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
   const return_url = ltzfConfig.returnUrl;
+  const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
     {
       ...params,
@@ -512,6 +559,7 @@ export async function jsapiConvenientPay(
       notify_url,
       developer_appid,
       return_url,
+      timestamp,
     },
     "jsapiConvenient",
   );
@@ -522,11 +570,19 @@ export async function jsapiConvenientPay(
     notify_url,
     developer_appid,
     return_url,
+    timestamp,
     sign,
   };
-  return ltzfApi.post<LTZF.Response.JsapiConvenient>(
+  const urlParams = new URLSearchParams();
+  Object.entries(reqParams).forEach(([k, v]) => {
+    if (v !== undefined) urlParams.append(k, String(v));
+  });
+  return ltzfApi.raw.post<LTZF.Response.JsapiConvenient>(
     "/api/wxpay/jsapi_convenient",
-    reqParams,
+    urlParams,
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    },
   );
 }
 
@@ -540,12 +596,14 @@ export async function appPay(params: LTZF.Params.AppPayInput) {
   const notify_url = ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
   const mch_id = ltzfConfig.mch_id;
+  const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
     {
       ...params,
       notify_url,
       developer_appid,
       mch_id,
+      timestamp,
     },
     "appPay",
   );
@@ -555,9 +613,16 @@ export async function appPay(params: LTZF.Params.AppPayInput) {
     notify_url,
     developer_appid,
     mch_id,
+    timestamp,
     sign,
   };
-  return ltzfApi.post<LTZF.Response.AppPay>("/api/wxpay/app", reqParams);
+  const urlParams = new URLSearchParams();
+  Object.entries(reqParams).forEach(([k, v]) => {
+    if (v !== undefined) urlParams.append(k, String(v));
+  });
+  return ltzfApi.raw.post<LTZF.Response.AppPay>("/api/wxpay/app", urlParams, {
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  });
 }
 
 /**
@@ -570,12 +635,14 @@ export async function miniProgramPay(params: LTZF.Params.MiniProgramPayInput) {
   const mch_id = ltzfConfig.mch_id;
   const notify_url = ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
+  const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
     {
       ...params,
       mch_id,
       notify_url,
       developer_appid,
+      timestamp,
     },
     "miniProgramPay",
   );
@@ -585,11 +652,19 @@ export async function miniProgramPay(params: LTZF.Params.MiniProgramPayInput) {
     mch_id,
     notify_url,
     developer_appid,
+    timestamp,
     sign,
   };
-  return ltzfApi.post<LTZF.Response.MiniProgramPay>(
+  const urlParams = new URLSearchParams();
+  Object.entries(reqParams).forEach(([k, v]) => {
+    if (v !== undefined) urlParams.append(k, String(v));
+  });
+  return ltzfApi.raw.post<LTZF.Response.MiniProgramPay>(
     "/api/wxpay/miniprogram",
-    reqParams,
+    urlParams,
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    },
   );
 }
 
@@ -602,11 +677,13 @@ export async function refundOrder(params: LTZF.Params.RefundOrderInput) {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
   const notify_url = ltzfConfig.refundUrl;
+  const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
     {
       ...params,
       mch_id,
       notify_url,
+      timestamp,
     },
     "refundOrder",
   );
@@ -615,11 +692,19 @@ export async function refundOrder(params: LTZF.Params.RefundOrderInput) {
     ...params,
     mch_id,
     notify_url,
+    timestamp,
     sign,
   };
-  return ltzfApi.post<LTZF.Response.RefundOrder>(
+  const urlParams = new URLSearchParams();
+  Object.entries(reqParams).forEach(([k, v]) => {
+    if (v !== undefined) urlParams.append(k, String(v));
+  });
+  return ltzfApi.raw.post<LTZF.Response.RefundOrder>(
     "/api/wxpay/refund_order",
-    reqParams,
+    urlParams,
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    },
   );
 }
 
@@ -633,19 +718,28 @@ export async function getWechatOpenid(
 ) {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
+  const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
-    { ...params, mch_id },
+    { ...params, mch_id, timestamp },
     "getWechatOpenid",
   );
   const sign = signParams(filteredParams);
   const reqParams = {
     ...params,
     mch_id,
+    timestamp,
     sign,
   };
-  return ltzfApi.post<LTZF.Response.GetWechatOpenid>(
+  const urlParams = new URLSearchParams();
+  Object.entries(reqParams).forEach(([k, v]) => {
+    if (v !== undefined) urlParams.append(k, String(v));
+  });
+  return ltzfApi.raw.post<LTZF.Response.GetWechatOpenid>(
     "/api/wxpay/get_wechat_openid",
-    reqParams,
+    urlParams,
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    },
   );
 }
 
@@ -657,16 +751,28 @@ export async function getWechatOpenid(
 export async function getPayOrder(params: LTZF.Params.GetPayOrderInput) {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
-  const filteredParams = filterSignParams({ ...params, mch_id }, "getPayOrder");
+  const timestamp = Math.floor(Date.now() / 1000).toString();
+  const filteredParams = filterSignParams(
+    { ...params, mch_id, timestamp },
+    "getPayOrder",
+  );
   const sign = signParams(filteredParams);
   const reqParams = {
     ...params,
     mch_id,
+    timestamp,
     sign,
   };
-  return ltzfApi.post<LTZF.Response.GetPayOrder>(
+  const urlParams = new URLSearchParams();
+  Object.entries(reqParams).forEach(([k, v]) => {
+    if (v !== undefined) urlParams.append(k, String(v));
+  });
+  return ltzfApi.raw.post<LTZF.Response.GetPayOrder>(
     "/api/wxpay/get_pay_order",
-    reqParams,
+    urlParams,
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    },
   );
 }
 
@@ -678,18 +784,27 @@ export async function getPayOrder(params: LTZF.Params.GetPayOrderInput) {
 export async function getRefundOrder(params: LTZF.Params.GetRefundOrderInput) {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
+  const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
-    { ...params, mch_id },
+    { ...params, mch_id, timestamp },
     "getRefundOrder",
   );
   const sign = signParams(filteredParams);
   const reqParams = {
     ...params,
     mch_id,
+    timestamp,
     sign,
   };
-  return ltzfApi.post<LTZF.Response.GetRefundOrder>(
+  const urlParams = new URLSearchParams();
+  Object.entries(reqParams).forEach(([k, v]) => {
+    if (v !== undefined) urlParams.append(k, String(v));
+  });
+  return ltzfApi.raw.post<LTZF.Response.GetRefundOrder>(
     "/api/wxpay/get_refund_order",
-    reqParams,
+    urlParams,
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    },
   );
 }
