@@ -1,16 +1,34 @@
 import { defineConfig } from "rolldown";
 
-export default defineConfig({
-  input: {
-    index: "./index.ts",
-    "ltzf/index": "./ltzf/index.ts",
-    "7pay/index": "./7pay/index.ts",
+export default defineConfig([
+  // ESM build
+  {
+    input: {
+      index: "./index.ts",
+      "pay/ltzf": "./ltzf/index.ts",
+      "pay/sevenPay": "./7pay/index.ts",
+    },
+    output: {
+      format: "esm",
+      dir: "dist",
+      minify: true,
+      entryFileNames: "[name].js",
+    },
+    external: ["@ethan-utils/axios", "crypto-js"],
   },
-  output: {
-    format: "esm",
-    dir: "dist",
-    minify: true,
-    entryFileNames: "[name].js",
+  // CommonJS build
+  {
+    input: {
+      index: "./index.ts",
+      "pay/ltzf": "./ltzf/index.ts",
+      "pay/sevenPay": "./7pay/index.ts",
+    },
+    output: {
+      format: "cjs",
+      dir: "dist",
+      minify: true,
+      entryFileNames: "[name].cjs",
+    },
+    external: ["@ethan-utils/axios", "crypto-js"],
   },
-  external: ["@ethan-utils/axios", "crypto-js"],
-});
+]);
