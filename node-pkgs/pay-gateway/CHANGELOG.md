@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.1.4
+
+### Patch Changes
+
+- 6bf6d04: 修复 mch_id 未传入问题
+
 ## 1.1.3
 
 ### Patch Changes
