@@ -4,7 +4,9 @@
   "description": "Test environment for pay-gateway module",
   "type": "commonjs",
   "scripts": {
-    "test:cjs": "node commonjs-test.js",
-    "test:esm": "node esm-test.mjs"
+    "test:imports": "node import-test.mjs"
+  },
+  "dependencies": {
+    "@ethan-utils/pay-gateway": "file:.."
   }
 }

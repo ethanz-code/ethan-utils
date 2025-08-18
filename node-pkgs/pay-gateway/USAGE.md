@@ -13,9 +13,9 @@
 ### 1. 初始化配置
 
 ```ts
-import { setSevenPayApiConfig } from "@ethan-utils/pay-gateway/7pay";
+import { sevenPay } from "@ethan-utils/pay-gateway";
 
-setSevenPayApiConfig({
+sevenPay.setSevenPayApiConfig({
   baseURL: "https://api.7pay.cc",
   key: "你的商户密钥",
   pid: "你的商户ID",
@@ -29,9 +29,9 @@ setSevenPayApiConfig({
 ### 2. 跳转支付
 
 ```ts
-import { jumpPay } from "@ethan-utils/pay-gateway/7pay";
+import { sevenPay } from "@ethan-utils/pay-gateway";
 
-const url = jumpPay({
+const url = sevenPay.jumpPay({
   out_trade_no: "订单号",
   type: "alipay", // 支付类型
   name: "商品名称",
@@ -43,9 +43,9 @@ const url = jumpPay({
 ### 3. API 支付
 
 ```ts
-import { apiPay } from "@ethan-utils/pay-gateway/7pay";
+import { sevenPay } from "@ethan-utils/pay-gateway";
 
-const res = await apiPay({
+const res = await sevenPay.apiPay({
   out_trade_no: "订单号",
   type: "alipay",
   name: "商品名称",
@@ -56,29 +56,29 @@ const res = await apiPay({
 ### 4. 余额查询
 
 ```ts
-import { balanceQuery } from "@ethan-utils/pay-gateway/7pay";
-const res = await balanceQuery();
+import { sevenPay } from "@ethan-utils/pay-gateway";
+const res = await sevenPay.balanceQuery();
 ```
 
 ### 5. 订单查询
 
 ```ts
-import { orderQuery } from "@ethan-utils/pay-gateway/7pay";
-const res = await orderQuery({ out_trade_no: "订单号" });
+import { sevenPay } from "@ethan-utils/pay-gateway";
+const res = await sevenPay.orderQuery({ out_trade_no: "订单号" });
 ```
 
 ### 6. 退款
 
 ```ts
-import { refund } from "@ethan-utils/pay-gateway/7pay";
-const res = await refund({ out_trade_no: "订单号", money: 100 });
+import { sevenPay } from "@ethan-utils/pay-gateway";
+const res = await sevenPay.refund({ out_trade_no: "订单号", money: 100 });
 ```
 
 ### 7. 通知验签
 
 ```ts
-import { notify } from "@ethan-utils/pay-gateway/7pay";
-const isValid = notify.verifyPayParams(req.body);
+import { sevenPay } from "@ethan-utils/pay-gateway";
+const isValid = sevenPay.notify.verifyPayParams(req.body);
 if (isValid) {
   // 验签通过，处理业务
 } else {
@@ -93,9 +93,9 @@ if (isValid) {
 ### 1. 初始化配置
 
 ```ts
-import { setLtzfApiConfig } from "@ethan-utils/pay-gateway/ltzf";
+import { ltzf } from "@ethan-utils/pay-gateway";
 
-setLtzfApiConfig({
+ltzf.setLtzfApiConfig({
   baseURL: "https://api.ltzf.com",
   key: "你的商户密钥",
   mch_id: "你的商户号",
@@ -111,8 +111,8 @@ setLtzfApiConfig({
 ### 2. 扫码支付
 
 ```ts
-import { scanPay } from "@ethan-utils/pay-gateway/ltzf";
-const res = await scanPay({
+import { ltzf } from "@ethan-utils/pay-gateway";
+const res = await ltzf.scanPay({
   out_trade_no: "订单号",
   total_fee: 100,
   body: "商品描述",
@@ -122,8 +122,8 @@ const res = await scanPay({
 ### 3. H5 支付
 
 ```ts
-import { h5Pay } from "@ethan-utils/pay-gateway/ltzf";
-const res = await h5Pay({
+import { ltzf } from "@ethan-utils/pay-gateway";
+const res = await ltzf.h5Pay({
   out_trade_no: "订单号",
   total_fee: 100,
   body: "商品描述",
@@ -133,34 +133,31 @@ const res = await h5Pay({
 ### 4. 公众号/小程序/APP 支付
 
 ```ts
-import {
-  jsapiPay,
-  miniProgramPay,
-  appPay,
-} from "@ethan-utils/pay-gateway/ltzf";
+import { ltzf } from "@ethan-utils/pay-gateway";
+
 // 公众号
-await jsapiPay({
+await ltzf.jsapiPay({
   out_trade_no: "订单号",
   total_fee: 100,
   body: "商品描述",
   openid: "用户openid",
 });
 // 小程序
-await miniProgramPay({
+await ltzf.miniProgramPay({
   out_trade_no: "订单号",
   total_fee: 100,
   body: "商品描述",
   openid: "用户openid",
 });
 // APP
-await appPay({ out_trade_no: "订单号", total_fee: 100, body: "商品描述" });
+await ltzf.appPay({ out_trade_no: "订单号", total_fee: 100, body: "商品描述" });
 ```
 
 ### 5. 退款
 
 ```ts
-import { refundOrder } from "@ethan-utils/pay-gateway/ltzf";
-await refundOrder({
+import { ltzf } from "@ethan-utils/pay-gateway";
+await ltzf.refundOrder({
   out_trade_no: "订单号",
   out_refund_no: "退款单号",
   refund_fee: 100,
@@ -170,17 +167,17 @@ await refundOrder({
 ### 6. 查询订单/退款
 
 ```ts
-import { getPayOrder, getRefundOrder } from "@ethan-utils/pay-gateway/ltzf";
-await getPayOrder({ out_trade_no: "订单号" });
-await getRefundOrder({ out_refund_no: "退款单号" });
+import { ltzf } from "@ethan-utils/pay-gateway";
+await ltzf.getPayOrder({ out_trade_no: "订单号" });
+await ltzf.getRefundOrder({ out_refund_no: "退款单号" });
 ```
 
 ### 7. 通知验签
 
 ```ts
-import { notify } from "@ethan-utils/pay-gateway/ltzf";
-const isPayValid = notify.verifyPayParams(req.body);
-const isRefundValid = notify.verifyRefundParams(req.body);
+import { ltzf } from "@ethan-utils/pay-gateway";
+const isPayValid = ltzf.notify.verifyPayParams(req.body);
+const isRefundValid = ltzf.notify.verifyRefundParams(req.body);
 if (isPayValid) {
   // 支付通知验签通过
 }

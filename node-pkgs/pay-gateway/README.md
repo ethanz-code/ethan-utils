@@ -45,6 +45,39 @@ pnpm add @ethan-utils/pay-gateway
 
 ## 快速开始
 
+### 导入方式
+
+```ts
+// 导入 ltzf 支付模块
+import { ltzf } from "@ethan-utils/pay-gateway";
+
+// 导入 7Pay 支付模块
+import { sevenPay } from "@ethan-utils/pay-gateway";
+
+// 同时导入两个模块
+import { ltzf, sevenPay } from "@ethan-utils/pay-gateway";
+```
+
+### 基本用法
+
+```ts
+// 初始化 ltzf 配置
+ltzf.setLtzfApiConfig({
+  baseURL: "https://api.ltzf.com",
+  key: "你的商户密钥",
+  mch_id: "你的商户号",
+  notifyUrl: "https://你的域名/notify",
+  returnUrl: "https://你的域名/return",
+});
+
+// 发起扫码支付
+const result = await ltzf.scanPay({
+  out_trade_no: "订单号",
+  total_fee: 100,
+  body: "商品描述",
+});
+```
+
 请参考 [USAGE.md](./USAGE.md) 获取详细用法和参数说明。
 
 ---
