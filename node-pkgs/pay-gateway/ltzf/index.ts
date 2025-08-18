@@ -378,15 +378,17 @@ function verifyRefundNotifyParams(params: LTZF.Params.RefundNotify): boolean {
  */
 export async function scanPay(params: LTZF.Params.ScanPayInput) {
   ensureLtzfConfig();
+  const mch_id = ltzfConfig.mch_id;
   const notify_url = ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
   const filteredParams = filterSignParams(
-    { ...params, notify_url, developer_appid },
+    { ...params, mch_id, notify_url, developer_appid },
     "scanPay",
   );
   const sign = signParams(filteredParams);
   const reqParams = {
     ...params,
+    mch_id,
     notify_url,
     developer_appid,
     sign,
@@ -401,16 +403,18 @@ export async function scanPay(params: LTZF.Params.ScanPayInput) {
  */
 export async function h5Pay(params: LTZF.Params.H5PayInput) {
   ensureLtzfConfig();
+  const mch_id = ltzfConfig.mch_id;
   const notify_url = ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
   const return_url = ltzfConfig.returnUrl;
   const filteredParams = filterSignParams(
-    { ...params, notify_url, developer_appid, return_url },
+    { ...params, mch_id, notify_url, developer_appid, return_url },
     "h5Pay",
   );
   const sign = signParams(filteredParams);
   const reqParams = {
     ...params,
+    mch_id,
     notify_url,
     developer_appid,
     return_url,
@@ -426,6 +430,7 @@ export async function h5Pay(params: LTZF.Params.H5PayInput) {
  */
 export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
   ensureLtzfConfig();
+  const mch_id = ltzfConfig.mch_id;
   const notify_url = ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
   const quit_url = undefined;
@@ -433,6 +438,7 @@ export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
   const filteredParams = filterSignParams(
     {
       ...params,
+      mch_id,
       notify_url,
       developer_appid,
       quit_url,
@@ -443,6 +449,7 @@ export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
   const sign = signParams(filteredParams);
   const reqParams = {
     ...params,
+    mch_id,
     notify_url,
     developer_appid,
     quit_url,
@@ -459,12 +466,14 @@ export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
  */
 export async function jsapiPay(params: LTZF.Params.JsapiPayInput) {
   ensureLtzfConfig();
+  const mch_id = ltzfConfig.mch_id;
   const notify_url = ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
   const return_url = ltzfConfig.returnUrl;
   const filteredParams = filterSignParams(
     {
       ...params,
+      mch_id,
       notify_url,
       developer_appid,
       return_url,
@@ -474,6 +483,7 @@ export async function jsapiPay(params: LTZF.Params.JsapiPayInput) {
   const sign = signParams(filteredParams);
   const reqParams = {
     ...params,
+    mch_id,
     notify_url,
     developer_appid,
     return_url,
@@ -491,12 +501,14 @@ export async function jsapiConvenientPay(
   params: LTZF.Params.JsapiConvenientInput,
 ) {
   ensureLtzfConfig();
+  const mch_id = ltzfConfig.mch_id;
   const notify_url = ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
   const return_url = ltzfConfig.returnUrl;
   const filteredParams = filterSignParams(
     {
       ...params,
+      mch_id,
       notify_url,
       developer_appid,
       return_url,
@@ -506,6 +518,7 @@ export async function jsapiConvenientPay(
   const sign = signParams(filteredParams);
   const reqParams = {
     ...params,
+    mch_id,
     notify_url,
     developer_appid,
     return_url,
@@ -526,11 +539,13 @@ export async function appPay(params: LTZF.Params.AppPayInput) {
   ensureLtzfConfig();
   const notify_url = ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
+  const mch_id = ltzfConfig.mch_id;
   const filteredParams = filterSignParams(
     {
       ...params,
       notify_url,
       developer_appid,
+      mch_id,
     },
     "appPay",
   );
@@ -539,6 +554,7 @@ export async function appPay(params: LTZF.Params.AppPayInput) {
     ...params,
     notify_url,
     developer_appid,
+    mch_id,
     sign,
   };
   return ltzfApi.post<LTZF.Response.AppPay>("/api/wxpay/app", reqParams);
@@ -551,11 +567,13 @@ export async function appPay(params: LTZF.Params.AppPayInput) {
  */
 export async function miniProgramPay(params: LTZF.Params.MiniProgramPayInput) {
   ensureLtzfConfig();
+  const mch_id = ltzfConfig.mch_id;
   const notify_url = ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
   const filteredParams = filterSignParams(
     {
       ...params,
+      mch_id,
       notify_url,
       developer_appid,
     },
@@ -564,6 +582,7 @@ export async function miniProgramPay(params: LTZF.Params.MiniProgramPayInput) {
   const sign = signParams(filteredParams);
   const reqParams = {
     ...params,
+    mch_id,
     notify_url,
     developer_appid,
     sign,
@@ -581,10 +600,12 @@ export async function miniProgramPay(params: LTZF.Params.MiniProgramPayInput) {
  */
 export async function refundOrder(params: LTZF.Params.RefundOrderInput) {
   ensureLtzfConfig();
+  const mch_id = ltzfConfig.mch_id;
   const notify_url = ltzfConfig.refundUrl;
   const filteredParams = filterSignParams(
     {
       ...params,
+      mch_id,
       notify_url,
     },
     "refundOrder",
@@ -592,6 +613,7 @@ export async function refundOrder(params: LTZF.Params.RefundOrderInput) {
   const sign = signParams(filteredParams);
   const reqParams = {
     ...params,
+    mch_id,
     notify_url,
     sign,
   };
@@ -610,10 +632,15 @@ export async function getWechatOpenid(
   params: LTZF.Params.GetWechatOpenidInput,
 ) {
   ensureLtzfConfig();
-  const filteredParams = filterSignParams(params, "getWechatOpenid");
+  const mch_id = ltzfConfig.mch_id;
+  const filteredParams = filterSignParams(
+    { ...params, mch_id },
+    "getWechatOpenid",
+  );
   const sign = signParams(filteredParams);
   const reqParams = {
     ...params,
+    mch_id,
     sign,
   };
   return ltzfApi.post<LTZF.Response.GetWechatOpenid>(
@@ -629,10 +656,12 @@ export async function getWechatOpenid(
  */
 export async function getPayOrder(params: LTZF.Params.GetPayOrderInput) {
   ensureLtzfConfig();
-  const filteredParams = filterSignParams(params, "getPayOrder");
+  const mch_id = ltzfConfig.mch_id;
+  const filteredParams = filterSignParams({ ...params, mch_id }, "getPayOrder");
   const sign = signParams(filteredParams);
   const reqParams = {
     ...params,
+    mch_id,
     sign,
   };
   return ltzfApi.post<LTZF.Response.GetPayOrder>(
@@ -648,10 +677,15 @@ export async function getPayOrder(params: LTZF.Params.GetPayOrderInput) {
  */
 export async function getRefundOrder(params: LTZF.Params.GetRefundOrderInput) {
   ensureLtzfConfig();
-  const filteredParams = filterSignParams(params, "getRefundOrder");
+  const mch_id = ltzfConfig.mch_id;
+  const filteredParams = filterSignParams(
+    { ...params, mch_id },
+    "getRefundOrder",
+  );
   const sign = signParams(filteredParams);
   const reqParams = {
     ...params,
+    mch_id,
     sign,
   };
   return ltzfApi.post<LTZF.Response.GetRefundOrder>(
