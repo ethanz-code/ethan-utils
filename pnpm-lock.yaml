@@ -27,6 +27,9 @@ importers:
       '@ethan-utils/cowsay':
         specifier: workspace:*
         version: link:node-pkgs/cowsay
+      '@ethan-utils/pay-gateway':
+        specifier: workspace:*
+        version: link:node-pkgs/pay-gateway
       '@types/node':
         specifier: ^24.0.4
         version: 24.0.4
