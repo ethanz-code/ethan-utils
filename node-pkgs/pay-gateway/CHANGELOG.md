@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.1.6
+
+### Patch Changes
+
+- c9d7c52: 添加更多输出日志
+
 ## 1.1.5
 
 ### Patch Changes
