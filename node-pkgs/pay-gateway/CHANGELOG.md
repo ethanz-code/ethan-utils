@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.1.7
+
+### Patch Changes
+
+- 62aca7b: 修复了导致 "undefined" is not valid JSON 错误的问题。
+
 ## 1.1.6
 
 ### Patch Changes
