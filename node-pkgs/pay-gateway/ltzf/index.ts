@@ -403,10 +403,7 @@ export async function scanPay(params: LTZF.Params.ScanPayInput) {
   // 日志输出
   if (ltzfConfig.log) {
     console.log("\n=== 扫码支付 (scanPay) 请求日志 ===");
-    console.log(
-      "请求参数:",
-      JSON.stringify(JSON.parse(JSON.stringify(reqParams)), null, 2),
-    );
+    console.log("请求参数:", JSON.stringify(reqParams, null, 2));
     console.log("URL编码参数:", urlParams.toString());
   }
 
@@ -420,10 +417,7 @@ export async function scanPay(params: LTZF.Params.ScanPayInput) {
 
   // 响应日志输出
   if (ltzfConfig.log) {
-    console.log(
-      "响应数据:",
-      JSON.stringify(JSON.parse(JSON.stringify(response.data)), null, 2),
-    );
+    console.log("响应数据:", JSON.stringify(response.data, null, 2));
     console.log("=== 扫码支付 (scanPay) 请求完成 ===\n");
   }
 
@@ -464,10 +458,7 @@ export async function h5Pay(params: LTZF.Params.H5PayInput) {
   // 日志输出
   if (ltzfConfig.log) {
     console.log("\n=== H5支付 (h5Pay) 请求日志 ===");
-    console.log(
-      "请求参数:",
-      JSON.stringify(JSON.parse(JSON.stringify(reqParams)), null, 2),
-    );
+    console.log("请求参数:", JSON.stringify(reqParams, null, 2));
     console.log("URL编码参数:", urlParams.toString());
   }
 
@@ -481,10 +472,7 @@ export async function h5Pay(params: LTZF.Params.H5PayInput) {
 
   // 响应日志输出
   if (ltzfConfig.log) {
-    console.log(
-      "响应数据:",
-      JSON.stringify(JSON.parse(JSON.stringify(response.data)), null, 2),
-    );
+    console.log("响应数据:", JSON.stringify(response.data, null, 2));
     console.log("=== H5支付 (h5Pay) 请求完成 ===\n");
   }
 
@@ -535,10 +523,7 @@ export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
   // 日志输出
   if (ltzfConfig.log) {
     console.log("\n=== H5跳转支付 (h5JumpPay) 请求日志 ===");
-    console.log(
-      "请求参数:",
-      JSON.stringify(JSON.parse(JSON.stringify(reqParams)), null, 2),
-    );
+    console.log("请求参数:", JSON.stringify(reqParams, null, 2));
     console.log("URL编码参数:", urlParams.toString());
   }
 
@@ -552,10 +537,7 @@ export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
 
   // 响应日志输出
   if (ltzfConfig.log) {
-    console.log(
-      "响应数据:",
-      JSON.stringify(JSON.parse(JSON.stringify(response.data)), null, 2),
-    );
+    console.log("响应数据:", JSON.stringify(response.data, null, 2));
     console.log("=== H5跳转支付 (h5JumpPay) 请求完成 ===\n");
   }
 
@@ -602,7 +584,7 @@ export async function jsapiPay(params: LTZF.Params.JsapiPayInput) {
 
   if (ltzfConfig.log) {
     console.log("JSAPI支付 (jsapiPay) 请求日志:");
-    console.log(JSON.stringify(JSON.parse(JSON.stringify(reqParams)), null, 2));
+    console.log(JSON.stringify(reqParams, null, 2));
   }
 
   const response = await ltzfApi.raw.post<LTZF.Response.JsapiPay>(
@@ -615,9 +597,7 @@ export async function jsapiPay(params: LTZF.Params.JsapiPayInput) {
 
   if (ltzfConfig.log) {
     console.log("JSAPI支付 (jsapiPay) 响应数据:");
-    console.log(
-      JSON.stringify(JSON.parse(JSON.stringify(response.data)), null, 2),
-    );
+    console.log(JSON.stringify(response.data, null, 2));
   }
 
   return response;
@@ -665,7 +645,7 @@ export async function jsapiConvenientPay(
 
   if (ltzfConfig.log) {
     console.log("公众号支付便捷版 (jsapiConvenientPay) 请求日志:");
-    console.log(JSON.stringify(JSON.parse(JSON.stringify(reqParams)), null, 2));
+    console.log(JSON.stringify(reqParams, null, 2));
   }
 
   const response = await ltzfApi.raw.post<LTZF.Response.JsapiConvenient>(
@@ -678,9 +658,7 @@ export async function jsapiConvenientPay(
 
   if (ltzfConfig.log) {
     console.log("公众号支付便捷版 (jsapiConvenientPay) 响应数据:");
-    console.log(
-      JSON.stringify(JSON.parse(JSON.stringify(response.data)), null, 2),
-    );
+    console.log(JSON.stringify(response.data, null, 2));
   }
 
   return response;
@@ -723,7 +701,7 @@ export async function appPay(params: LTZF.Params.AppPayInput) {
 
   if (ltzfConfig.log) {
     console.log("APP支付 (appPay) 请求日志:");
-    console.log(JSON.stringify(JSON.parse(JSON.stringify(reqParams)), null, 2));
+    console.log(JSON.stringify(reqParams, null, 2));
   }
 
   const response = await ltzfApi.raw.post<LTZF.Response.AppPay>(
@@ -736,9 +714,7 @@ export async function appPay(params: LTZF.Params.AppPayInput) {
 
   if (ltzfConfig.log) {
     console.log("APP支付 (appPay) 响应数据:");
-    console.log(
-      JSON.stringify(JSON.parse(JSON.stringify(response.data)), null, 2),
-    );
+    console.log(JSON.stringify(response.data, null, 2));
   }
 
   return response;
@@ -781,7 +757,7 @@ export async function miniProgramPay(params: LTZF.Params.MiniProgramPayInput) {
 
   if (ltzfConfig.log) {
     console.log("小程序支付 (miniProgramPay) 请求日志:");
-    console.log(JSON.stringify(JSON.parse(JSON.stringify(reqParams)), null, 2));
+    console.log(JSON.stringify(reqParams, null, 2));
   }
 
   const response = await ltzfApi.raw.post<LTZF.Response.MiniProgramPay>(
@@ -794,9 +770,7 @@ export async function miniProgramPay(params: LTZF.Params.MiniProgramPayInput) {
 
   if (ltzfConfig.log) {
     console.log("小程序支付 (miniProgramPay) 响应数据:");
-    console.log(
-      JSON.stringify(JSON.parse(JSON.stringify(response.data)), null, 2),
-    );
+    console.log(JSON.stringify(response.data, null, 2));
   }
 
   return response;
@@ -836,7 +810,7 @@ export async function refundOrder(params: LTZF.Params.RefundOrderInput) {
 
   if (ltzfConfig.log) {
     console.log("订单退款 (refundOrder) 请求日志:");
-    console.log(JSON.stringify(JSON.parse(JSON.stringify(reqParams)), null, 2));
+    console.log(JSON.stringify(reqParams, null, 2));
   }
 
   const response = await ltzfApi.raw.post<LTZF.Response.RefundOrder>(
@@ -849,9 +823,7 @@ export async function refundOrder(params: LTZF.Params.RefundOrderInput) {
 
   if (ltzfConfig.log) {
     console.log("订单退款 (refundOrder) 响应数据:");
-    console.log(
-      JSON.stringify(JSON.parse(JSON.stringify(response.data)), null, 2),
-    );
+    console.log(JSON.stringify(response.data, null, 2));
   }
 
   return response;
@@ -886,7 +858,7 @@ export async function getWechatOpenid(
 
   if (ltzfConfig.log) {
     console.log("获取微信Openid (getWechatOpenid) 请求日志:");
-    console.log(JSON.stringify(JSON.parse(JSON.stringify(reqParams)), null, 2));
+    console.log(JSON.stringify(reqParams, null, 2));
   }
 
   const response = await ltzfApi.raw.post<LTZF.Response.GetWechatOpenid>(
@@ -899,9 +871,7 @@ export async function getWechatOpenid(
 
   if (ltzfConfig.log) {
     console.log("获取微信Openid (getWechatOpenid) 响应数据:");
-    console.log(
-      JSON.stringify(JSON.parse(JSON.stringify(response.data)), null, 2),
-    );
+    console.log(JSON.stringify(response.data, null, 2));
   }
 
   return response;
@@ -934,7 +904,7 @@ export async function getPayOrder(params: LTZF.Params.GetPayOrderInput) {
 
   if (ltzfConfig.log) {
     console.log("查询订单 (getPayOrder) 请求日志:");
-    console.log(JSON.stringify(JSON.parse(JSON.stringify(reqParams)), null, 2));
+    console.log(JSON.stringify(reqParams, null, 2));
   }
 
   const response = await ltzfApi.raw.post<LTZF.Response.GetPayOrder>(
@@ -947,9 +917,7 @@ export async function getPayOrder(params: LTZF.Params.GetPayOrderInput) {
 
   if (ltzfConfig.log) {
     console.log("查询订单 (getPayOrder) 响应数据:");
-    console.log(
-      JSON.stringify(JSON.parse(JSON.stringify(response.data)), null, 2),
-    );
+    console.log(JSON.stringify(response.data, null, 2));
   }
 
   return response;
@@ -982,7 +950,7 @@ export async function getRefundOrder(params: LTZF.Params.GetRefundOrderInput) {
 
   if (ltzfConfig.log) {
     console.log("查询退款结果 (getRefundOrder) 请求日志:");
-    console.log(JSON.stringify(JSON.parse(JSON.stringify(reqParams)), null, 2));
+    console.log(JSON.stringify(reqParams, null, 2));
   }
 
   const response = await ltzfApi.raw.post<LTZF.Response.GetRefundOrder>(
@@ -995,9 +963,7 @@ export async function getRefundOrder(params: LTZF.Params.GetRefundOrderInput) {
 
   if (ltzfConfig.log) {
     console.log("查询退款结果 (getRefundOrder) 响应数据:");
-    console.log(
-      JSON.stringify(JSON.parse(JSON.stringify(response.data)), null, 2),
-    );
+    console.log(JSON.stringify(response.data, null, 2));
   }
 
   return response;
