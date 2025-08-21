@@ -8,7 +8,7 @@
 - **标准响应与原始响应**：所有请求方法分为标准响应（`BaseResponse`）和原始响应（`raw`）两类。
 - **自动重试**：网络错误和 5xx 状态自动重试。
 - **Token 注入**：支持动态获取 Token 并自动注入请求头（每次请求时动态获取）。
-- **401 回调**：支持未授权自动回调处理。
+- **未授权回调**：支持自定义未授权代码触发回调处理。
 - **TypeScript 完全类型支持**。
 
 ## 安装
@@ -38,9 +38,10 @@ createRequest({
     return token ? `Bearer ${token}` : null; // 返回完整的 Authorization 头值
   },
   onUnauthorized: () => {
-    // 可选，401 未授权时的处理
+    // 可选，未授权时的处理
     window.location.href = "/login";
   },
+  unauthorizedCodes: 401, // 可选，自定义未授权代码，默认为 401
 });
 
 // 之后可直接使用 request 进行请求
@@ -81,6 +82,45 @@ const api2 = createRequest({ baseURL: "https://api2.com" }, false);
 const res1 = await api1.get<any>("/foo");
 const res2 = await api2.get<any>("/bar");
 ```
+
+### 4. 自定义未授权代码
+
+默认情况下，当响应数据中的 `code` 为 `401` 时会触发 `onUnauthorized` 回调。你可以通过 `unauthorizedCodes` 选项自定义触发条件：
+
+```typescript
+import { createRequest } from "@ethan-utils/axios";
+
+// 单个未授权代码
+createRequest({
+  baseURL: "https://api.example.com",
+  unauthorizedCodes: 1001, // 当响应数据的 code 为 1001 时触发
+  onUnauthorized: () => {
+    console.log("用户未登录");
+    window.location.href = "/login";
+  },
+});
+
+// 多个未授权代码
+createRequest({
+  baseURL: "https://api.example.com",
+  unauthorizedCodes: [1001, 1002, 1003], // 支持多个代码
+  onUnauthorized: () => {
+    console.log("用户认证失效");
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  },
+});
+```
+
+> **注意**：这里的 `code` 指的是响应数据中的业务状态码，不是 HTTP 状态码。例如：
+>
+> ```json
+> {
+>   "code": 1001,
+>   "message": "用户未登录",
+>   "data": null
+> }
+> ```
 
 ## API 说明
 
@@ -130,7 +170,8 @@ export interface BaseResponse<T> {
 export interface CreateApiOptions {
   baseURL: string; // API 的基础 URL
   getToken?: () => string | null; // 获取认证令牌的函数（返回完整的 Authorization 头值，如 "Bearer xxx" 或 "Token xxx"）
-  onUnauthorized?: () => void; // 401 未授权时的回调
+  onUnauthorized?: () => void; // 未授权时的回调
+  unauthorizedCodes?: number | number[]; // 触发未授权回调的响应数据中的 code 值，默认为 401
   timeout?: number; // 请求超时时间
 }
 ```
