@@ -1,5 +1,11 @@
 # @ethan-utils/axios
 
+## 2.3.1
+
+### Patch Changes
+
+- 92bcb32: feat(axios): add customizable unauthorized codes support
+
 ## 2.3.0
 
 ### Minor Changes
