@@ -1,5 +1,11 @@
 # @ethan-utils/axios
 
+## 2.4.1
+
+### Patch Changes
+
+- 81d2740: 修复无法使用插件的问题
+
 ## 2.4.0
 
 ### Minor Changes
