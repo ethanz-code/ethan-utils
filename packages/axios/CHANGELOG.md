@@ -1,5 +1,11 @@
 # @ethan-utils/axios
 
+## 2.4.3
+
+### Patch Changes
+
+- 083f55c: 尝试修复无法使用插件问题
+
 ## 2.4.2
 
 ### Patch Changes
