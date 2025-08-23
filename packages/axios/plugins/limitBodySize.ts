@@ -5,7 +5,7 @@ export interface LimitBodySizeOptions {
   onLimit?: (msg: string, config: AxiosRequestConfig) => void;
 }
 
-export function limitBodySizePlugin(
+export default function limitBodySizePlugin(
   api: AxiosInstance,
   options: LimitBodySizeOptions = {},
 ) {

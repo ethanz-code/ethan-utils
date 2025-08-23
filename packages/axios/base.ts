@@ -28,17 +28,12 @@ export interface CreateApiOptions {
 // 插件类型
 export type AxiosPlugin<T = any> = (api: AxiosInstance, options?: T) => void;
 
-// 扩展 AxiosInstance
-export interface AxiosInstanceWithUse extends AxiosInstance {
-  use<T>(plugin: AxiosPlugin<T>, opts?: T): void;
-}
-
 /**
  * 创建一个配置好的 Axios 实例
  * @param {CreateApiOptions} options - API 客户端的配置选项
- * @returns {AxiosInstanceWithUse} 返回一个集成了请求重试、请求头注入和响应拦截的 Axios 实例
+ * @returns {AxiosInstance} 返回一个集成了请求重试、请求头注入和响应拦截的 Axios 实例
  */
-export function createApi(options: CreateApiOptions): AxiosInstanceWithUse {
+export function createApi(options: CreateApiOptions): AxiosInstance {
   const headers = {
     "Content-Type": "application/json",
   };
@@ -54,12 +49,7 @@ export function createApi(options: CreateApiOptions): AxiosInstanceWithUse {
     },
   };
 
-  const api = axios.create(axiosConfig) as AxiosInstanceWithUse;
-
-  // 添加 use 方法
-  api.use = function <T>(plugin: AxiosPlugin<T>, opts?: T): void {
-    plugin(api, opts);
-  };
+  const api = axios.create(axiosConfig);
 
   // 添加请求拦截器来动态设置 token
   if (options.getToken) {

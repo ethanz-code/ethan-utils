@@ -7,7 +7,7 @@ export interface PreventRepeatOptions {
 
 const sessionKey = "__ethan_utils_repeat_submit__";
 
-export function preventRepeatPlugin(
+export default function preventRepeatPlugin(
   api: AxiosInstance,
   options: PreventRepeatOptions = {},
 ) {
