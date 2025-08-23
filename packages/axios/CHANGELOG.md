@@ -1,5 +1,11 @@
 # @ethan-utils/axios
 
+## 2.4.2
+
+### Patch Changes
+
+- 1fed9b3: 尝试修复导入插件相关问题
+
 ## 2.4.1
 
 ### Patch Changes
