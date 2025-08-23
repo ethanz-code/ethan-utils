@@ -20,14 +20,6 @@ export interface CreateApiOptions {
    */
   getToken?: () => string | null;
   /**
-   * @property {() => void} [onUnauthorized] - 当收到未授权响应时的回调函数
-   */
-  onUnauthorized?: () => void;
-  /**
-   * @property {number | number[]} [unauthorizedCodes] - 触发未授权回调的响应数据中的 code 值，默认为 401
-   */
-  unauthorizedCodes?: number | number[];
-  /**
    * @property {number} [timeout] - 请求超时时间
    */
   timeout?: number;
@@ -97,20 +89,7 @@ export function createApi(options: CreateApiOptions): AxiosInstanceWithUse {
 
   // 响应拦截器
   api.interceptors.response.use(
-    (response) => {
-      // 检查是否需要触发未授权回调
-      if (options.onUnauthorized && response.data?.code !== undefined) {
-        const unauthorizedCodes = options.unauthorizedCodes ?? 401;
-        const codes = Array.isArray(unauthorizedCodes)
-          ? unauthorizedCodes
-          : [unauthorizedCodes];
-
-        if (codes.includes(response.data.code)) {
-          options.onUnauthorized();
-        }
-      }
-      return response;
-    },
+    (response) => response,
     (error) => Promise.reject(error),
   );
 

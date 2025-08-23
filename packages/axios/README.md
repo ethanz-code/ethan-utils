@@ -28,7 +28,7 @@ pnpm add @ethan-utils/axios
 在应用入口（如 `main.ts` 或 `app.ts`）调用 `createRequest` 并设置为全局单例（默认即可），否则后续调用 `request` 会抛出错误。
 
 ```typescript
-import { createRequest, request } from "@ethan-utils/axios";
+import { createRequest } from "@ethan-utils/axios";
 
 createRequest({
   baseURL: "https://api.example.com",
@@ -37,11 +37,6 @@ createRequest({
     const token = localStorage.getItem("token");
     return token ? `Bearer ${token}` : null; // 返回完整的 Authorization 头值
   },
-  onUnauthorized: () => {
-    // 可选，未授权时的处理
-    window.location.href = "/login";
-  },
-  unauthorizedCodes: 401, // 可选，自定义未授权代码，默认为 401
 });
 
 // 之后可直接使用 request 进行请求
@@ -83,44 +78,36 @@ const res1 = await api1.get<any>("/foo");
 const res2 = await api2.get<any>("/bar");
 ```
 
-### 4. 自定义未授权代码
+### 4. 身份验证失效处理
 
-默认情况下，当响应数据中的 `code` 为 `401` 时会触发 `onUnauthorized` 回调。你可以通过 `unauthorizedCodes` 选项自定义触发条件：
+通过未授权处理插件，可以监听 HTTP 状态码 401 和响应数据中的自定义 code 值来处理身份验证失效：
 
 ```typescript
 import { createRequest } from "@ethan-utils/axios";
+import { unauthorized } from "@ethan-utils/axios/plugins/unauthorized";
 
-// 单个未授权代码
-createRequest({
-  baseURL: "https://api.example.com",
-  unauthorizedCodes: 1001, // 当响应数据的 code 为 1001 时触发
-  onUnauthorized: () => {
-    console.log("用户未登录");
-    window.location.href = "/login";
-  },
-});
+const api = createRequest({ baseURL: "https://api.example.com" }, false);
 
-// 多个未授权代码
-createRequest({
-  baseURL: "https://api.example.com",
-  unauthorizedCodes: [1001, 1002, 1003], // 支持多个代码
+// 使用未授权处理插件
+api.use(unauthorized.unauthorizedPlugin, {
   onUnauthorized: () => {
-    console.log("用户认证失效");
+    console.log("身份验证失效");
     localStorage.removeItem("token");
     window.location.href = "/login";
   },
+  unauthorizedCodes: [401, 1001, 1002], // 支持多个业务状态码
 });
 ```
 
-> **注意**：这里的 `code` 指的是响应数据中的业务状态码，不是 HTTP 状态码。例如：
->
-> ```json
-> {
->   "code": 1001,
->   "message": "用户未登录",
->   "data": null
-> }
-> ```
+**检测逻辑**：
+
+1. **HTTP 状态码 401**：当请求返回 HTTP 401 状态码时触发
+2. **响应数据 code**：当响应数据中的 `code` 字段匹配配置的值时触发
+
+**配置参数**：
+
+- `onUnauthorized`: 必需，身份验证失效时的回调函数
+- `unauthorizedCodes`: 可选，触发回调的业务状态码，默认为 401，支持单个数字或数组
 
 ## API 说明
 
@@ -170,8 +157,6 @@ export interface BaseResponse<T> {
 export interface CreateApiOptions {
   baseURL: string; // API 的基础 URL
   getToken?: () => string | null; // 获取认证令牌的函数（返回完整的 Authorization 头值，如 "Bearer xxx" 或 "Token xxx"）
-  onUnauthorized?: () => void; // 未授权时的回调
-  unauthorizedCodes?: number | number[]; // 触发未授权回调的响应数据中的 code 值，默认为 401
   timeout?: number; // 请求超时时间
 }
 ```
@@ -211,6 +196,24 @@ api.use(preventRepeat.preventRepeatPlugin, {
   onRepeat: (msg, config) => {
     alert(msg);
   },
+});
+```
+
+### 3. 未授权处理插件（unauthorized）
+
+用于处理身份验证失效场景，支持 HTTP 状态码 401 和响应数据中的自定义 code 值检测。
+
+```typescript
+import { createRequest } from "@ethan-utils/axios";
+import { unauthorized } from "@ethan-utils/axios/plugins/unauthorized";
+
+const api = createRequest({ baseURL: "..." }, false);
+api.use(unauthorized.unauthorizedPlugin, {
+  onUnauthorized: () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  },
+  unauthorizedCodes: [401, 1001, 1002], // 可选，默认 401
 });
 ```
 
