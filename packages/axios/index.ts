@@ -1,6 +1,10 @@
-import type { AxiosRequestConfig, AxiosError, AxiosInstance } from "axios";
+import type { AxiosRequestConfig, AxiosError } from "axios";
 import axios from "axios";
-import { createApi, type CreateApiOptions } from "./base";
+import {
+  createApi,
+  type CreateApiOptions,
+  type AxiosInstanceWithUse,
+} from "./base";
 
 /**
  * 标准化 API 响应结构
@@ -52,7 +56,7 @@ const formatError = <T>(error: unknown): BaseResponse<T> => {
  * @param api Axios 实例
  * @returns 标准请求方法和 raw 原始方法
  */
-function createClient(api: AxiosInstance) {
+function createClient(api: AxiosInstanceWithUse) {
   const methods = {
     /** GET 请求，返回标准响应结构 */
     async get<T, R extends BaseResponse<T> = BaseResponse<T>>(
@@ -160,6 +164,7 @@ function createClient(api: AxiosInstance) {
 
   return {
     ...methods,
+    use: api.use.bind(api),
     raw: {
       get: getRaw,
       post: postRaw,

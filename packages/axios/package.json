@@ -24,6 +24,11 @@
       "import": "./dist/plugins/preventRepeat.js",
       "require": "./dist/plugins/preventRepeat.js",
       "types": "./dist/plugins/preventRepeat.d.ts"
+    },
+    "./plugins/unauthorized": {
+      "import": "./dist/plugins/unauthorized.js",
+      "require": "./dist/plugins/unauthorized.js",
+      "types": "./dist/plugins/unauthorized.d.ts"
     }
   },
   "scripts": {
