@@ -14,21 +14,6 @@
       "import": "./dist/index.js",
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
-    },
-    "./plugins/limitBodySize": {
-      "import": "./dist/plugins/limitBodySize.js",
-      "require": "./dist/plugins/limitBodySize.js",
-      "types": "./dist/plugins/limitBodySize.d.ts"
-    },
-    "./plugins/preventRepeat": {
-      "import": "./dist/plugins/preventRepeat.js",
-      "require": "./dist/plugins/preventRepeat.js",
-      "types": "./dist/plugins/preventRepeat.d.ts"
-    },
-    "./plugins/unauthorized": {
-      "import": "./dist/plugins/unauthorized.js",
-      "require": "./dist/plugins/unauthorized.js",
-      "types": "./dist/plugins/unauthorized.d.ts"
     }
   },
   "scripts": {

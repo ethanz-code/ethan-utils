@@ -6,9 +6,9 @@
 
 - **单例/多实例模式**：支持全局单例和多实例灵活切换。
 - **标准响应与原始响应**：所有请求方法分为标准响应（`BaseResponse`）和原始响应（`raw`）两类。
+- **插件系统**：支持通过插件扩展功能，内置未授权处理、请求体大小限制、防重复提交等插件。
 - **自动重试**：网络错误和 5xx 状态自动重试。
 - **Token 注入**：支持动态获取 Token 并自动注入请求头（每次请求时动态获取）。
-- **未授权回调**：支持自定义未授权代码触发回调处理。
 - **TypeScript 完全类型支持**。
 
 ## 安装
@@ -83,13 +83,12 @@ const res2 = await api2.get<any>("/bar");
 通过未授权处理插件，可以监听 HTTP 状态码 401 和响应数据中的自定义 code 值来处理身份验证失效：
 
 ```typescript
-import { createRequest } from "@ethan-utils/axios";
-import { unauthorized } from "@ethan-utils/axios/plugins/unauthorized";
+import { createRequest, unauthorized } from "@ethan-utils/axios";
 
 const api = createRequest({ baseURL: "https://api.example.com" }, false);
 
 // 使用未授权处理插件
-api.use(unauthorized.unauthorizedPlugin, {
+api.use(unauthorized, {
   onUnauthorized: () => {
     console.log("身份验证失效");
     localStorage.removeItem("token");
@@ -125,6 +124,7 @@ api.use(unauthorized.unauthorizedPlugin, {
 - `put<T>(url, data?, config?)`
 - `delete<T>(url, config?)`
 - `patch<T>(url, data?, config?)`
+- `use<T>(plugin, options?)` - 注册插件
 
 原始响应方法通过 `raw` 命名空间调用：
 
@@ -170,11 +170,10 @@ export interface CreateApiOptions {
 用于限制 post/put/patch 请求体的最大字节数，防止大文件或超大数据误提交。
 
 ```typescript
-import { createRequest } from "@ethan-utils/axios";
-import { limitBodySize } from "@ethan-utils/axios/plugins/limitBodySize";
+import { createRequest, limitBodySize } from "@ethan-utils/axios";
 
 const api = createRequest({ baseURL: "..." }, false);
-api.use(limitBodySize.limitBodySizePlugin, {
+api.use(limitBodySize, {
   maxBodySize: 2 * 1024 * 1024, // 最大 2MB
   onLimit: (msg, config) => {
     alert(msg);
@@ -187,11 +186,10 @@ api.use(limitBodySize.limitBodySizePlugin, {
 用于防止表单等接口在短时间内重复提交。
 
 ```typescript
-import { createRequest } from "@ethan-utils/axios";
-import { preventRepeat } from "@ethan-utils/axios/plugins/preventRepeat";
+import { createRequest, preventRepeat } from "@ethan-utils/axios";
 
 const api = createRequest({ baseURL: "..." }, false);
-api.use(preventRepeat.preventRepeatPlugin, {
+api.use(preventRepeat, {
   interval: 1500, // 1.5 秒内重复提交会被拦截
   onRepeat: (msg, config) => {
     alert(msg);
@@ -204,11 +202,10 @@ api.use(preventRepeat.preventRepeatPlugin, {
 用于处理身份验证失效场景，支持 HTTP 状态码 401 和响应数据中的自定义 code 值检测。
 
 ```typescript
-import { createRequest } from "@ethan-utils/axios";
-import { unauthorized } from "@ethan-utils/axios/plugins/unauthorized";
+import { createRequest, unauthorized } from "@ethan-utils/axios";
 
 const api = createRequest({ baseURL: "..." }, false);
-api.use(unauthorized.unauthorizedPlugin, {
+api.use(unauthorized, {
   onUnauthorized: () => {
     localStorage.removeItem("token");
     window.location.href = "/login";

@@ -15,7 +15,7 @@ export interface UnauthorizedOptions {
  * 未授权处理插件
  * 支持检测 HTTP 状态码 401 和响应数据中的自定义 code 值
  */
-export default function unauthorizedPlugin(
+export function unauthorizedPlugin(
   api: AxiosInstance,
   options: UnauthorizedOptions = {},
 ) {
@@ -48,3 +48,6 @@ export default function unauthorizedPlugin(
     return Promise.reject(error);
   });
 }
+
+export const unauthorized = unauthorizedPlugin;
+export default unauthorizedPlugin;

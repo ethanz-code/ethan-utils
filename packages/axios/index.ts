@@ -13,6 +13,55 @@ export interface BaseResponse<T> {
 }
 
 /**
+ * API 客户端接口，包含所有请求方法和插件系统
+ */
+interface ApiClient {
+  get<T, R extends BaseResponse<T> = BaseResponse<T>>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<R>;
+  post<T, R extends BaseResponse<T> = BaseResponse<T>>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig,
+  ): Promise<R>;
+  put<T, R extends BaseResponse<T> = BaseResponse<T>>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig,
+  ): Promise<R>;
+  delete<T, R extends BaseResponse<T> = BaseResponse<T>>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<R>;
+  patch<T, R extends BaseResponse<T> = BaseResponse<T>>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig,
+  ): Promise<R>;
+  use<T>(plugin: AxiosPlugin<T>, options?: T): void;
+  raw: {
+    get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+    post<T>(
+      url: string,
+      data?: unknown,
+      config?: AxiosRequestConfig,
+    ): Promise<T>;
+    put<T>(
+      url: string,
+      data?: unknown,
+      config?: AxiosRequestConfig,
+    ): Promise<T>;
+    delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+    patch<T>(
+      url: string,
+      data?: unknown,
+      config?: AxiosRequestConfig,
+    ): Promise<T>;
+  };
+}
+
+/**
  * 格式化错误为标准响应结构
  * @param error 捕获的错误
  * @returns 标准化响应
@@ -52,7 +101,7 @@ const formatError = <T>(error: unknown): BaseResponse<T> => {
  * @param api Axios 实例
  * @returns 标准请求方法和 raw 原始方法
  */
-function createClient(api: AxiosInstance) {
+function createClient(api: AxiosInstance): ApiClient {
   const methods = {
     /** GET 请求，返回标准响应结构 */
     async get<T, R extends BaseResponse<T> = BaseResponse<T>>(
@@ -173,7 +222,7 @@ function createClient(api: AxiosInstance) {
   };
 }
 
-let apiClientInstance: ReturnType<typeof createClient> | null = null;
+let apiClientInstance: ApiClient | null = null;
 
 /**
  * 创建/初始化 API 客户端
@@ -184,7 +233,7 @@ let apiClientInstance: ReturnType<typeof createClient> | null = null;
 export function createRequest(
   options: CreateApiOptions,
   isSingleton = true,
-): ReturnType<typeof createClient> {
+): ApiClient {
   if (isSingleton) {
     if (!apiClientInstance) {
       const api = createApi(options);
@@ -214,7 +263,7 @@ export const request = new Proxy(
       return Reflect.get(apiClientInstance, prop);
     },
   },
-) as ReturnType<typeof createClient>;
+) as ApiClient;
 
 /**
  * request 的简写别名
@@ -223,3 +272,13 @@ export const r = request;
 
 export type { CreateApiOptions };
 export type { AxiosRequestConfig } from "axios";
+
+// 导出所有插件
+export {
+  limitBodySizePlugin,
+  limitBodySize,
+  preventRepeatPlugin,
+  preventRepeat,
+  unauthorizedPlugin,
+  unauthorized,
+} from "./plugins";

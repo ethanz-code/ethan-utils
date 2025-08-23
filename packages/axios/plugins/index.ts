@@ -1,5 +1,12 @@
-import limitBodySizePlugin from "./limitBodySize";
-import preventRepeatPlugin from "./preventRepeat";
-import unauthorizedPlugin from "./unauthorized";
+import { limitBodySizePlugin, limitBodySize } from "./limitBodySize";
+import { preventRepeatPlugin, preventRepeat } from "./preventRepeat";
+import { unauthorizedPlugin, unauthorized } from "./unauthorized";
 
-export { limitBodySizePlugin, preventRepeatPlugin, unauthorizedPlugin };
+export {
+  limitBodySizePlugin,
+  limitBodySize,
+  preventRepeatPlugin,
+  preventRepeat,
+  unauthorizedPlugin,
+  unauthorized,
+};
