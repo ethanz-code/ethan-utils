@@ -1,5 +1,11 @@
 # @ethan-utils/axios
 
+## 2.4.0
+
+### Minor Changes
+
+- 2ce261e: 将未验证功能插件化
+
 ## 2.3.1
 
 ### Patch Changes
