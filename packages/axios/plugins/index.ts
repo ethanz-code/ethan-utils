@@ -1,5 +1,9 @@
 import { limitBodySizePlugin, limitBodySize } from "./limitBodySize";
-import { preventRepeatPlugin, preventRepeat } from "./preventRepeat";
+import {
+  preventRepeatPlugin,
+  preventRepeat,
+  PreventRepeatError,
+} from "./preventRepeat";
 import { unauthorizedPlugin, unauthorized } from "./unauthorized";
 
 export {
@@ -7,6 +11,7 @@ export {
   limitBodySize,
   preventRepeatPlugin,
   preventRepeat,
+  PreventRepeatError,
   unauthorizedPlugin,
   unauthorized,
 };

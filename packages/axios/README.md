@@ -5,7 +5,7 @@
 ## 特性
 
 - **单例/多实例模式**：支持全局单例和多实例灵活切换。
-- **标准响应与原始响应**：所有请求方法分为标准响应（`BaseResponse`）和原始响应（`raw`）两类。
+- **标准响应与直接响应**：所有请求方法分为标准响应（`BaseResponse`）和直接响应（`direct`）两类。
 - **插件系统**：支持通过插件扩展功能，内置未授权处理、请求体大小限制、防重复提交等插件。
 - **自动重试**：网络错误和 5xx 状态自动重试。
 - **Token 注入**：支持动态获取 Token 并自动注入请求头（每次请求时动态获取）。
@@ -55,9 +55,9 @@ if (res.code === 200) {
   console.error(res.message);
 }
 
-// 原始响应（遇到错误直接抛出异常）
+// 直接响应（适用于非标准 BaseResponse 格式，遇到错误直接抛出异常）
 try {
-  const user = await request.raw.get<User>("/users/1");
+  const user = await request.direct.get<User>("/users/1");
   console.log(user);
 } catch (e) {
   // 需自行处理异常
@@ -117,7 +117,7 @@ api.use(unauthorized, {
 
 ### 请求方法
 
-所有方法均支持标准响应（BaseResponse）和原始响应（raw）：
+所有方法均支持标准响应（BaseResponse）和直接响应（direct）：
 
 - `get<T>(url, config?)`
 - `post<T>(url, data?, config?)`
@@ -126,18 +126,18 @@ api.use(unauthorized, {
 - `patch<T>(url, data?, config?)`
 - `use<T>(plugin, options?)` - 注册插件
 
-原始响应方法通过 `raw` 命名空间调用：
+直接响应方法通过 `direct` 命名空间调用：
 
-- `raw.get<T>(url, config?)`
-- `raw.post<T>(url, data?, config?)`
-- `raw.put<T>(url, data?, config?)`
-- `raw.delete<T>(url, config?)`
-- `raw.patch<T>(url, data?, config?)`
+- `direct.get<T>(url, config?)`
+- `direct.post<T>(url, data?, config?)`
+- `direct.put<T>(url, data?, config?)`
+- `direct.delete<T>(url, config?)`
+- `direct.patch<T>(url, data?, config?)`
 
 #### 返回值说明
 
 - 标准响应：`Promise<BaseResponse<T>>`，失败时 code 非 200/201，data 为 null，message 为错误信息。
-- 原始响应：`Promise<T>`，失败时直接抛出异常。
+- 直接响应：`Promise<T>`，适用于后端返回格式与 BaseResponse 不一致或不使用 BaseResponse 的接口，失败时直接抛出异常。
 
 ### 类型定义
 

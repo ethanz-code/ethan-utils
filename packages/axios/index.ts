@@ -1,6 +1,7 @@
 import type { AxiosRequestConfig, AxiosError, AxiosInstance } from "axios";
 import axios from "axios";
 import { createApi, type CreateApiOptions, type AxiosPlugin } from "./base";
+import { PreventRepeatError } from "./plugins/preventRepeat";
 
 /**
  * 标准化 API 响应结构
@@ -40,7 +41,7 @@ interface ApiClient {
     config?: AxiosRequestConfig,
   ): Promise<R>;
   use<T>(plugin: AxiosPlugin<T>, options?: T): void;
-  raw: {
+  direct: {
     get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
     post<T>(
       url: string,
@@ -67,6 +68,11 @@ interface ApiClient {
  * @returns 标准化响应
  */
 const formatError = <T>(error: unknown): BaseResponse<T> => {
+  // 如果是防重复提交错误，直接重新抛出，不转换为响应格式
+  if (error instanceof PreventRepeatError) {
+    throw error;
+  }
+
   if (axios.isAxiosError(error)) {
     const axiosError = error as AxiosError<BaseResponse<any>>;
     // 如果后端有返回错误体，则直接使用
@@ -115,8 +121,8 @@ function createClient(api: AxiosInstance): ApiClient {
         return formatError<T>(error) as R;
       }
     },
-    /** GET 原始请求，返回 data 部分，失败抛出异常 */
-    async getRaw<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    /** GET 直接请求，适用于后端返回格式与 BaseResponse 不一致或不使用 BaseResponse 的接口，失败抛出异常 */
+    async getDirect<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
       const response = await api.get<T>(url, config);
       return response.data;
     },
@@ -133,8 +139,8 @@ function createClient(api: AxiosInstance): ApiClient {
         return formatError<T>(error) as R;
       }
     },
-    /** POST 原始请求，返回 data 部分，失败抛出异常 */
-    async postRaw<T>(
+    /** POST 直接请求，适用于后端返回格式与 BaseResponse 不一致或不使用 BaseResponse 的接口，失败抛出异常 */
+    async postDirect<T>(
       url: string,
       data?: unknown,
       config?: AxiosRequestConfig,
@@ -155,8 +161,8 @@ function createClient(api: AxiosInstance): ApiClient {
         return formatError<T>(error) as R;
       }
     },
-    /** PUT 原始请求，返回 data 部分，失败抛出异常 */
-    async putRaw<T>(
+    /** PUT 直接请求，适用于后端返回格式与 BaseResponse 不一致或不使用 BaseResponse 的接口，失败抛出异常 */
+    async putDirect<T>(
       url: string,
       data?: unknown,
       config?: AxiosRequestConfig,
@@ -176,8 +182,11 @@ function createClient(api: AxiosInstance): ApiClient {
         return formatError<T>(error) as R;
       }
     },
-    /** DELETE 原始请求，返回 data 部分，失败抛出异常 */
-    async deleteRaw<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    /** DELETE 直接请求，适用于后端返回格式与 BaseResponse 不一致或不使用 BaseResponse 的接口，失败抛出异常 */
+    async deleteDirect<T>(
+      url: string,
+      config?: AxiosRequestConfig,
+    ): Promise<T> {
       const response = await api.delete<T>(url, config);
       return response.data;
     },
@@ -194,8 +203,8 @@ function createClient(api: AxiosInstance): ApiClient {
         return formatError<T>(error) as R;
       }
     },
-    /** PATCH 原始请求，返回 data 部分，失败抛出异常 */
-    async patchRaw<T>(
+    /** PATCH 直接请求，适用于后端返回格式与 BaseResponse 不一致或不使用 BaseResponse 的接口，失败抛出异常 */
+    async patchDirect<T>(
       url: string,
       data?: unknown,
       config?: AxiosRequestConfig,
@@ -205,19 +214,20 @@ function createClient(api: AxiosInstance): ApiClient {
     },
   };
 
-  const { getRaw, postRaw, putRaw, deleteRaw, patchRaw } = methods;
+  const { getDirect, postDirect, putDirect, deleteDirect, patchDirect } =
+    methods;
 
   return {
     ...methods,
     use<T>(plugin: AxiosPlugin<T>, options?: T): void {
       plugin(api, options);
     },
-    raw: {
-      get: getRaw,
-      post: postRaw,
-      put: putRaw,
-      delete: deleteRaw,
-      patch: patchRaw,
+    direct: {
+      get: getDirect,
+      post: postDirect,
+      put: putDirect,
+      delete: deleteDirect,
+      patch: patchDirect,
     },
   };
 }
@@ -248,8 +258,8 @@ export function createRequest(
 
 /**
  * 全局请求客户端，需先调用 createRequest 初始化
- * - request.get/post/put/delete/patch 返回 BaseResponse
- * - request.raw.get/post/put/delete/patch 返回原始 data，失败抛出异常
+ * - request.get/post/put/delete/patch 返回 BaseResponse 格式，错误会被转换为标准响应
+ * - request.direct.get/post/put/delete/patch 直接返回后端数据，适用于非标准 BaseResponse 格式，失败抛出异常
  */
 export const request = new Proxy(
   {},
@@ -279,6 +289,7 @@ export {
   limitBodySize,
   preventRepeatPlugin,
   preventRepeat,
+  PreventRepeatError,
   unauthorizedPlugin,
   unauthorized,
 } from "./plugins";
