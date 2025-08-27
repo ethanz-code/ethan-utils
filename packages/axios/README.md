@@ -190,7 +190,6 @@ import { createRequest, preventRepeat } from "@ethan-utils/axios";
 
 const api = createRequest({ baseURL: "..." }, false);
 api.use(preventRepeat, {
-  interval: 1500, // 1.5 秒内重复提交会被拦截
   onRepeat: (msg, config) => {
     alert(msg);
   },
