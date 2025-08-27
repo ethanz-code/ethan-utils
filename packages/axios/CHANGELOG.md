@@ -1,5 +1,11 @@
 # @ethan-utils/axios
 
+## 2.5.1
+
+### Patch Changes
+
+- 9792759: 优化重复请求插件逻辑
+
 ## 2.5.0
 
 ### Minor Changes
