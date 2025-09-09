@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.2.0
+
+### Minor Changes
+
+- 9bd3fd2: 新增功能支付接口可传入 notify_url 或 return_url 来覆盖默认初始化的配置.
+
 ## 1.1.7
 
 ### Patch Changes
