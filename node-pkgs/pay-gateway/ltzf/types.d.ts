@@ -330,62 +330,86 @@ declare global {
        */
       export type ScanPayInput = Omit<
         ScanPay,
-        "mch_id" | "sign" | "notify_url" | "developer_appid"
-      >;
+        "mch_id" | "sign" | "developer_appid"
+      > & {
+        /** 支付通知地址，可选，不传则使用配置中的默认值 */
+        notify_url?: string;
+      };
       /**
        * H5支付业务入参类型
        */
       export type H5PayInput = Omit<
         H5Pay,
-        "mch_id" | "sign" | "notify_url" | "return_url" | "developer_appid"
-      >;
+        "mch_id" | "sign" | "developer_appid"
+      > & {
+        /** 支付通知地址，可选，不传则使用配置中的默认值 */
+        notify_url?: string;
+        /** 回跳地址，可选，不传则使用配置中的默认值 */
+        return_url?: string;
+      };
       /**
        * H5支付跳转业务入参类型
        */
       export type H5JumpPayInput = Omit<
         H5JumpPay,
-        | "mch_id"
-        | "sign"
-        | "notify_url"
-        | "return_url"
-        | "quit_url"
-        | "developer_appid"
-      >;
+        "mch_id" | "sign" | "quit_url" | "developer_appid"
+      > & {
+        /** 支付通知地址，可选，不传则使用配置中的默认值 */
+        notify_url?: string;
+        /** 回跳地址，可选，不传则使用配置中的默认值 */
+        return_url?: string;
+      };
       /**
        * 公众号支付业务入参类型
        */
       export type JsapiPayInput = Omit<
         JsapiPay,
-        "mch_id" | "sign" | "notify_url" | "return_url" | "developer_appid"
-      >;
+        "mch_id" | "sign" | "developer_appid"
+      > & {
+        /** 支付通知地址，可选，不传则使用配置中的默认值 */
+        notify_url?: string;
+        /** 回跳地址，可选，不传则使用配置中的默认值 */
+        return_url?: string;
+      };
       /**
        * 公众号支付便捷版业务入参类型
        */
       export type JsapiConvenientInput = Omit<
         JsapiConvenient,
-        "mch_id" | "sign" | "notify_url" | "return_url" | "developer_appid"
-      >;
+        "mch_id" | "sign" | "developer_appid"
+      > & {
+        /** 支付通知地址，可选，不传则使用配置中的默认值 */
+        notify_url?: string;
+        /** 回跳地址，可选，不传则使用配置中的默认值 */
+        return_url?: string;
+      };
       /**
        * APP支付业务入参类型
        */
       export type AppPayInput = Omit<
         AppPay,
-        "app_id" | "mch_id" | "sign" | "notify_url" | "developer_appid"
-      >;
+        "app_id" | "mch_id" | "sign" | "developer_appid"
+      > & {
+        /** 支付通知地址，可选，不传则使用配置中的默认值 */
+        notify_url?: string;
+      };
       /**
        * 小程序支付业务入参类型
        */
       export type MiniProgramPayInput = Omit<
         MiniProgramPay,
-        "mch_id" | "sign" | "notify_url" | "developer_appid"
-      >;
+        "mch_id" | "sign" | "developer_appid"
+      > & {
+        /** 支付通知地址，可选，不传则使用配置中的默认值 */
+        notify_url?: string;
+      };
       /**
        * 订单退款业务入参类型
        */
-      export type RefundOrderInput = Omit<
-        RefundOrder,
-        "mch_id" | "sign" | "notify_url"
-      >;
+      export type RefundOrderInput = Omit<RefundOrder, "mch_id" | "sign"> & {
+        /** 退款通知地址，可选，不传则使用配置中的默认值 */
+        notify_url?: string;
+      };
       /**
        * 获取微信Openid业务入参类型
        */

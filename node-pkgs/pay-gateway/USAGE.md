@@ -112,10 +112,20 @@ ltzf.setLtzfApiConfig({
 
 ```ts
 import { ltzf } from "@ethan-utils/pay-gateway";
+
+// 使用默认配置的通知地址
 const res = await ltzf.scanPay({
   out_trade_no: "订单号",
   total_fee: 100,
   body: "商品描述",
+});
+
+// 覆盖默认的通知地址
+const res2 = await ltzf.scanPay({
+  out_trade_no: "订单号",
+  total_fee: 100,
+  body: "商品描述",
+  notify_url: "https://custom-domain.com/notify", // 可选，覆盖默认配置
 });
 ```
 
@@ -123,10 +133,21 @@ const res = await ltzf.scanPay({
 
 ```ts
 import { ltzf } from "@ethan-utils/pay-gateway";
+
+// 使用默认配置
 const res = await ltzf.h5Pay({
   out_trade_no: "订单号",
   total_fee: 100,
   body: "商品描述",
+});
+
+// 自定义通知和回跳地址
+const res2 = await ltzf.h5Pay({
+  out_trade_no: "订单号",
+  total_fee: 100,
+  body: "商品描述",
+  notify_url: "https://custom-domain.com/notify", // 可选，覆盖默认配置
+  return_url: "https://custom-domain.com/return", // 可选，覆盖默认配置
 });
 ```
 
@@ -135,32 +156,52 @@ const res = await ltzf.h5Pay({
 ```ts
 import { ltzf } from "@ethan-utils/pay-gateway";
 
-// 公众号
+// 公众号支付
 await ltzf.jsapiPay({
   out_trade_no: "订单号",
   total_fee: 100,
   body: "商品描述",
   openid: "用户openid",
+  notify_url: "https://custom-domain.com/notify", // 可选，覆盖默认配置
+  return_url: "https://custom-domain.com/return", // 可选，覆盖默认配置
 });
-// 小程序
+
+// 小程序支付
 await ltzf.miniProgramPay({
   out_trade_no: "订单号",
   total_fee: 100,
   body: "商品描述",
   openid: "用户openid",
+  notify_url: "https://custom-domain.com/notify", // 可选，覆盖默认配置
 });
-// APP
-await ltzf.appPay({ out_trade_no: "订单号", total_fee: 100, body: "商品描述" });
+
+// APP 支付
+await ltzf.appPay({
+  out_trade_no: "订单号",
+  total_fee: 100,
+  body: "商品描述",
+  notify_url: "https://custom-domain.com/notify", // 可选，覆盖默认配置
+});
 ```
 
 ### 5. 退款
 
 ```ts
 import { ltzf } from "@ethan-utils/pay-gateway";
+
+// 使用默认退款通知地址
 await ltzf.refundOrder({
   out_trade_no: "订单号",
   out_refund_no: "退款单号",
   refund_fee: 100,
+});
+
+// 自定义退款通知地址
+await ltzf.refundOrder({
+  out_trade_no: "订单号",
+  out_refund_no: "退款单号",
+  refund_fee: 100,
+  notify_url: "https://custom-domain.com/refund-notify", // 可选，覆盖默认配置
 });
 ```
 
@@ -186,6 +227,36 @@ if (isRefundValid) {
 }
 ```
 
+### 8. 通知地址和回跳地址优先级
+
+ltzf 支付网关支持在接口调用时传入可选的 `notify_url` 和 `return_url` 参数，这些参数的优先级高于初始化配置中的默认值。
+
+#### 参数优先级规则：
+
+1. **接口调用时传入的参数** > **初始化配置的默认值**
+2. 如果接口调用时未传入 `notify_url` 或 `return_url`，则使用初始化配置中的默认值
+3. 如果接口调用时传入了这些参数，则优先使用传入的值
+
+#### 支持的接口和参数：
+
+| 接口               | 支持 notify_url | 支持 return_url |
+| ------------------ | --------------- | --------------- |
+| scanPay            | ✅              | ❌              |
+| h5Pay              | ✅              | ✅              |
+| h5JumpPay          | ✅              | ✅              |
+| jsapiPay           | ✅              | ✅              |
+| jsapiConvenientPay | ✅              | ✅              |
+| appPay             | ✅              | ❌              |
+| miniProgramPay     | ✅              | ❌              |
+| refundOrder        | ✅              | ❌              |
+
+#### 使用场景：
+
+- **多租户系统**：不同租户可以使用不同的通知地址
+- **A/B 测试**：针对不同用户群体使用不同的回跳页面
+- **临时调试**：在开发测试时使用临时的通知地址
+- **业务隔离**：不同业务模块使用独立的通知处理逻辑
+
 ---
 
 ## 常见问题
@@ -194,5 +265,6 @@ if (isRefundValid) {
 - 配置初始化后无需每次传递密钥、商户号等敏感信息。
 - 如需自定义签名字段过滤，可通过 `signFilter` 配置。
 - 详细参数类型请参考类型定义文件。
+- `notify_url` 和 `return_url` 参数支持在接口调用时覆盖默认配置，提供更大的灵活性。
 
 如有更多问题，欢迎提 issue。

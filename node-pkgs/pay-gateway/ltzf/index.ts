@@ -107,6 +107,7 @@ const SIGN_FIELD_WHITELIST: SignFieldWhitelistItem[] = [
       "body",
       "timestamp",
       "notify_url",
+      "return_url",
     ],
   },
   {
@@ -118,6 +119,7 @@ const SIGN_FIELD_WHITELIST: SignFieldWhitelistItem[] = [
       "body",
       "timestamp",
       "notify_url",
+      "return_url",
     ],
   },
   {
@@ -130,6 +132,7 @@ const SIGN_FIELD_WHITELIST: SignFieldWhitelistItem[] = [
       "openid",
       "timestamp",
       "notify_url",
+      "return_url",
     ],
   },
   {
@@ -141,6 +144,7 @@ const SIGN_FIELD_WHITELIST: SignFieldWhitelistItem[] = [
       "body",
       "timestamp",
       "notify_url",
+      "return_url",
     ],
   },
   {
@@ -174,6 +178,7 @@ const SIGN_FIELD_WHITELIST: SignFieldWhitelistItem[] = [
       "out_refund_no",
       "timestamp",
       "refund_fee",
+      "notify_url",
     ],
   },
   {
@@ -379,7 +384,7 @@ function verifyRefundNotifyParams(params: LTZF.Params.RefundNotify): boolean {
 export async function scanPay(params: LTZF.Params.ScanPayInput) {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
-  const notify_url = ltzfConfig.notifyUrl;
+  const notify_url = params.notify_url || ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
   const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
@@ -432,9 +437,9 @@ export async function scanPay(params: LTZF.Params.ScanPayInput) {
 export async function h5Pay(params: LTZF.Params.H5PayInput) {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
-  const notify_url = ltzfConfig.notifyUrl;
+  const notify_url = params.notify_url || ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
-  const return_url = ltzfConfig.returnUrl;
+  const return_url = params.return_url || ltzfConfig.returnUrl;
   const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
     { ...params, mch_id, notify_url, developer_appid, return_url, timestamp },
@@ -487,10 +492,10 @@ export async function h5Pay(params: LTZF.Params.H5PayInput) {
 export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
-  const notify_url = ltzfConfig.notifyUrl;
+  const notify_url = params.notify_url || ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
   const quit_url = undefined;
-  const return_url = ltzfConfig.returnUrl;
+  const return_url = params.return_url || ltzfConfig.returnUrl;
   const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
     {
@@ -552,9 +557,9 @@ export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
 export async function jsapiPay(params: LTZF.Params.JsapiPayInput) {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
-  const notify_url = ltzfConfig.notifyUrl;
+  const notify_url = params.notify_url || ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
-  const return_url = ltzfConfig.returnUrl;
+  const return_url = params.return_url || ltzfConfig.returnUrl;
   const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
     {
@@ -613,9 +618,9 @@ export async function jsapiConvenientPay(
 ) {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
-  const notify_url = ltzfConfig.notifyUrl;
+  const notify_url = params.notify_url || ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
-  const return_url = ltzfConfig.returnUrl;
+  const return_url = params.return_url || ltzfConfig.returnUrl;
   const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
     {
@@ -671,7 +676,7 @@ export async function jsapiConvenientPay(
  */
 export async function appPay(params: LTZF.Params.AppPayInput) {
   ensureLtzfConfig();
-  const notify_url = ltzfConfig.notifyUrl;
+  const notify_url = params.notify_url || ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
   const mch_id = ltzfConfig.mch_id;
   const timestamp = Math.floor(Date.now() / 1000).toString();
@@ -728,7 +733,7 @@ export async function appPay(params: LTZF.Params.AppPayInput) {
 export async function miniProgramPay(params: LTZF.Params.MiniProgramPayInput) {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
-  const notify_url = ltzfConfig.notifyUrl;
+  const notify_url = params.notify_url || ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
   const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
@@ -784,7 +789,7 @@ export async function miniProgramPay(params: LTZF.Params.MiniProgramPayInput) {
 export async function refundOrder(params: LTZF.Params.RefundOrderInput) {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
-  const notify_url = ltzfConfig.refundUrl;
+  const notify_url = params.notify_url || ltzfConfig.refundUrl;
   const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
     {
