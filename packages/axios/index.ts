@@ -17,48 +17,40 @@ export interface BaseResponse<T> {
  * API 客户端接口，包含所有请求方法和插件系统
  */
 interface ApiClient {
-  get<T, R extends BaseResponse<T> = BaseResponse<T>>(
-    url: string,
-    config?: AxiosRequestConfig,
-  ): Promise<R>;
-  post<T, R extends BaseResponse<T> = BaseResponse<T>>(
-    url: string,
-    data?: unknown,
-    config?: AxiosRequestConfig,
-  ): Promise<R>;
-  put<T, R extends BaseResponse<T> = BaseResponse<T>>(
+  get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+  post<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T>;
+  put<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T>;
+  delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+  patch<T>(
     url: string,
     data?: unknown,
     config?: AxiosRequestConfig,
-  ): Promise<R>;
-  delete<T, R extends BaseResponse<T> = BaseResponse<T>>(
-    url: string,
-    config?: AxiosRequestConfig,
-  ): Promise<R>;
-  patch<T, R extends BaseResponse<T> = BaseResponse<T>>(
-    url: string,
-    data?: unknown,
-    config?: AxiosRequestConfig,
-  ): Promise<R>;
+  ): Promise<T>;
   use<T>(plugin: AxiosPlugin<T>, options?: T): void;
-  direct: {
-    get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
-    post<T>(
+  std: {
+    get<T, R extends BaseResponse<T> = BaseResponse<T>>(
+      url: string,
+      config?: AxiosRequestConfig,
+    ): Promise<R>;
+    post<T, R extends BaseResponse<T> = BaseResponse<T>>(
       url: string,
       data?: unknown,
       config?: AxiosRequestConfig,
-    ): Promise<T>;
-    put<T>(
+    ): Promise<R>;
+    put<T, R extends BaseResponse<T> = BaseResponse<T>>(
       url: string,
       data?: unknown,
       config?: AxiosRequestConfig,
-    ): Promise<T>;
-    delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
-    patch<T>(
+    ): Promise<R>;
+    delete<T, R extends BaseResponse<T> = BaseResponse<T>>(
+      url: string,
+      config?: AxiosRequestConfig,
+    ): Promise<R>;
+    patch<T, R extends BaseResponse<T> = BaseResponse<T>>(
       url: string,
       data?: unknown,
       config?: AxiosRequestConfig,
-    ): Promise<T>;
+    ): Promise<R>;
   };
 }
 
@@ -109,8 +101,13 @@ const formatError = <T>(error: unknown): BaseResponse<T> => {
  */
 function createClient(api: AxiosInstance): ApiClient {
   const methods = {
-    /** GET 请求，返回标准响应结构 */
-    async get<T, R extends BaseResponse<T> = BaseResponse<T>>(
+    /** GET 请求，直接返回后端数据，失败抛出异常 */
+    async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+      const response = await api.get<T>(url, config);
+      return response.data;
+    },
+    /** GET 标准请求，返回 BaseResponse 格式，错误会被转换为标准响应 */
+    async getStandard<T, R extends BaseResponse<T> = BaseResponse<T>>(
       url: string,
       config?: AxiosRequestConfig,
     ): Promise<R> {
@@ -121,13 +118,17 @@ function createClient(api: AxiosInstance): ApiClient {
         return formatError<T>(error) as R;
       }
     },
-    /** GET 直接请求，适用于后端返回格式与 BaseResponse 不一致或不使用 BaseResponse 的接口，失败抛出异常 */
-    async getDirect<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-      const response = await api.get<T>(url, config);
+    /** POST 请求，直接返回后端数据，失败抛出异常 */
+    async post<T>(
+      url: string,
+      data?: unknown,
+      config?: AxiosRequestConfig,
+    ): Promise<T> {
+      const response = await api.post<T>(url, data, config);
       return response.data;
     },
-    /** POST 请求，返回标准响应结构 */
-    async post<T, R extends BaseResponse<T> = BaseResponse<T>>(
+    /** POST 标准请求，返回 BaseResponse 格式，错误会被转换为标准响应 */
+    async postStandard<T, R extends BaseResponse<T> = BaseResponse<T>>(
       url: string,
       data?: unknown,
       config?: AxiosRequestConfig,
@@ -139,17 +140,17 @@ function createClient(api: AxiosInstance): ApiClient {
         return formatError<T>(error) as R;
       }
     },
-    /** POST 直接请求，适用于后端返回格式与 BaseResponse 不一致或不使用 BaseResponse 的接口，失败抛出异常 */
-    async postDirect<T>(
+    /** PUT 请求，直接返回后端数据，失败抛出异常 */
+    async put<T>(
       url: string,
       data?: unknown,
       config?: AxiosRequestConfig,
     ): Promise<T> {
-      const response = await api.post<T>(url, data, config);
+      const response = await api.put<T>(url, data, config);
       return response.data;
     },
-    /** PUT 请求，返回标准响应结构 */
-    async put<T, R extends BaseResponse<T> = BaseResponse<T>>(
+    /** PUT 标准请求，返回 BaseResponse 格式，错误会被转换为标准响应 */
+    async putStandard<T, R extends BaseResponse<T> = BaseResponse<T>>(
       url: string,
       data?: unknown,
       config?: AxiosRequestConfig,
@@ -161,17 +162,13 @@ function createClient(api: AxiosInstance): ApiClient {
         return formatError<T>(error) as R;
       }
     },
-    /** PUT 直接请求，适用于后端返回格式与 BaseResponse 不一致或不使用 BaseResponse 的接口，失败抛出异常 */
-    async putDirect<T>(
-      url: string,
-      data?: unknown,
-      config?: AxiosRequestConfig,
-    ): Promise<T> {
-      const response = await api.put<T>(url, data, config);
+    /** DELETE 请求，直接返回后端数据，失败抛出异常 */
+    async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+      const response = await api.delete<T>(url, config);
       return response.data;
     },
-    /** DELETE 请求，返回标准响应结构 */
-    async delete<T, R extends BaseResponse<T> = BaseResponse<T>>(
+    /** DELETE 标准请求，返回 BaseResponse 格式，错误会被转换为标准响应 */
+    async deleteStandard<T, R extends BaseResponse<T> = BaseResponse<T>>(
       url: string,
       config?: AxiosRequestConfig,
     ): Promise<R> {
@@ -182,16 +179,17 @@ function createClient(api: AxiosInstance): ApiClient {
         return formatError<T>(error) as R;
       }
     },
-    /** DELETE 直接请求，适用于后端返回格式与 BaseResponse 不一致或不使用 BaseResponse 的接口，失败抛出异常 */
-    async deleteDirect<T>(
+    /** PATCH 请求，直接返回后端数据，失败抛出异常 */
+    async patch<T>(
       url: string,
+      data?: unknown,
       config?: AxiosRequestConfig,
     ): Promise<T> {
-      const response = await api.delete<T>(url, config);
+      const response = await api.patch<T>(url, data, config);
       return response.data;
     },
-    /** PATCH 请求，返回标准响应结构 */
-    async patch<T, R extends BaseResponse<T> = BaseResponse<T>>(
+    /** PATCH 标准请求，返回 BaseResponse 格式，错误会被转换为标准响应 */
+    async patchStandard<T, R extends BaseResponse<T> = BaseResponse<T>>(
       url: string,
       data?: unknown,
       config?: AxiosRequestConfig,
@@ -203,31 +201,27 @@ function createClient(api: AxiosInstance): ApiClient {
         return formatError<T>(error) as R;
       }
     },
-    /** PATCH 直接请求，适用于后端返回格式与 BaseResponse 不一致或不使用 BaseResponse 的接口，失败抛出异常 */
-    async patchDirect<T>(
-      url: string,
-      data?: unknown,
-      config?: AxiosRequestConfig,
-    ): Promise<T> {
-      const response = await api.patch<T>(url, data, config);
-      return response.data;
-    },
   };
 
-  const { getDirect, postDirect, putDirect, deleteDirect, patchDirect } =
-    methods;
+  const {
+    getStandard,
+    postStandard,
+    putStandard,
+    deleteStandard,
+    patchStandard,
+  } = methods;
 
   return {
     ...methods,
     use<T>(plugin: AxiosPlugin<T>, options?: T): void {
       plugin(api, options);
     },
-    direct: {
-      get: getDirect,
-      post: postDirect,
-      put: putDirect,
-      delete: deleteDirect,
-      patch: patchDirect,
+    std: {
+      get: getStandard,
+      post: postStandard,
+      put: putStandard,
+      delete: deleteStandard,
+      patch: patchStandard,
     },
   };
 }
@@ -258,8 +252,8 @@ export function createRequest(
 
 /**
  * 全局请求客户端，需先调用 createRequest 初始化
- * - request.get/post/put/delete/patch 返回 BaseResponse 格式，错误会被转换为标准响应
- * - request.direct.get/post/put/delete/patch 直接返回后端数据，适用于非标准 BaseResponse 格式，失败抛出异常
+ * - request.get/post/put/delete/patch 直接返回后端数据，失败抛出异常
+ * - request.std.get/post/put/delete/patch 返回 BaseResponse 格式，错误会被转换为标准响应
  */
 export const request = new Proxy(
   {},
