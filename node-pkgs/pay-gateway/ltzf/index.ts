@@ -80,13 +80,13 @@ const LTZF_FIELD_NAMES = [
   "callback_url",
 ] as const;
 type LtzfFieldName = (typeof LTZF_FIELD_NAMES)[number];
-interface SignFieldWhitelistItem {
+interface SignFieldConfigItem {
   api: LtzfApiName;
   fields: LtzfFieldName[];
 }
 
-// 2. 白名单配置
-const SIGN_FIELD_WHITELIST: SignFieldWhitelistItem[] = [
+// 2. 签名字段配置 - 定义每个API需要哪些字段参与签名
+const SIGN_FIELD_CONFIG: SignFieldConfigItem[] = [
   {
     api: "scanPay",
     fields: [
@@ -107,7 +107,6 @@ const SIGN_FIELD_WHITELIST: SignFieldWhitelistItem[] = [
       "body",
       "timestamp",
       "notify_url",
-      "return_url",
     ],
   },
   {
@@ -119,7 +118,6 @@ const SIGN_FIELD_WHITELIST: SignFieldWhitelistItem[] = [
       "body",
       "timestamp",
       "notify_url",
-      "return_url",
     ],
   },
   {
@@ -132,7 +130,6 @@ const SIGN_FIELD_WHITELIST: SignFieldWhitelistItem[] = [
       "openid",
       "timestamp",
       "notify_url",
-      "return_url",
     ],
   },
   {
@@ -144,7 +141,6 @@ const SIGN_FIELD_WHITELIST: SignFieldWhitelistItem[] = [
       "body",
       "timestamp",
       "notify_url",
-      "return_url",
     ],
   },
   {
@@ -222,7 +218,7 @@ const SIGN_FIELD_WHITELIST: SignFieldWhitelistItem[] = [
   },
 ];
 
-// 用户自定义签名字段过滤配置
+// 3. 用户自定义签名字段配置（覆盖默认配置）
 let userSignFilter: Record<string, string[]> = {};
 
 // 统一未初始化报错信息
@@ -272,16 +268,24 @@ export function setLtzfApiConfig(config: LtzfConfig) {
   }
 }
 
-// 通用签名参数过滤
+/**
+ * 根据API类型过滤出需要参与签名的字段
+ * @param params 完整的参数对象
+ * @param api API类型
+ * @returns 过滤后的签名参数对象
+ */
 function filterSignParams(params: Record<string, any>, api: string) {
-  // 获取签名字段白名单
+  // 获取该API需要参与签名的字段列表
   function getSignFields(api: string): string[] {
     if (userSignFilter[api]) return userSignFilter[api];
-    const found = SIGN_FIELD_WHITELIST.find((item) => item.api === api);
+    const found = SIGN_FIELD_CONFIG.find((item) => item.api === api);
     return found ? found.fields : [];
   }
+
   const fields = getSignFields(api);
   const filtered: Record<string, any> = {};
+
+  // 只提取配置中指定的字段，且值不为空
   for (const key of fields) {
     if (
       params[key] !== undefined &&
@@ -303,28 +307,25 @@ function ensureLtzfConfig(): boolean {
 }
 
 /**
- * 蓝兔支付签名算法封装
- * @param {Record<string, any>} params - 参与签名的参数对象
+ * 蓝兔支付签名算法 - 纯粹的签名计算，不做字段过滤
+ * @param {Record<string, any>} params - 已过滤的参与签名的参数对象
  * @returns {string} 签名字符串
  */
 export function signParams(params: Record<string, any>): string {
   // 1. 确保配置已初始化
   ensureLtzfConfig();
-  // 2. 排除 sign 字段，只参与必填参数
+  // 2. 排序参数（排除sign字段和空值）
   const filtered = Object.fromEntries(
     Object.entries(params).filter(
       ([k, v]) => k !== "sign" && v !== undefined && v !== null && v !== "",
     ),
   );
-  // 3. 排序参数
   const sortedKeys = Object.keys(filtered).sort();
-  // 4. 拼接 key=value 形式
+  // 3. 拼接 key=value 形式
   const paramString = sortedKeys.map((k) => `${k}=${filtered[k]}`).join("&");
-  // 5. 根据配置获取密钥
-  const key = ltzfConfig.key;
-  // 6. 拼接密钥
-  const stringToSign = `${paramString}&key=${key}`;
-  // 7. MD5 加密并转大写
+  // 4. 拼接密钥
+  const stringToSign = `${paramString}&key=${ltzfConfig.key}`;
+  // 5. MD5 加密并转大写
   return CryptoJS.MD5(stringToSign).toString().toUpperCase();
 }
 
