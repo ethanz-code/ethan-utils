@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.2.1
+
+### Patch Changes
+
+- 7562468: 修复蓝兔支付支付签名问题(hotfix)
+
 ## 1.2.0
 
 ### Minor Changes
