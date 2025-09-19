@@ -1,5 +1,11 @@
 # @ethan-utils/axios
 
+## 2.6.1
+
+### Patch Changes
+
+- 48bbf32: 优化未授权验证插件
+
 ## 2.6.0
 
 ### Minor Changes
