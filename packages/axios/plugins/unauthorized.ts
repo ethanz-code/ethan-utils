@@ -6,20 +6,20 @@ export interface UnauthorizedOptions {
    */
   onUnauthorized?: () => void;
   /**
-   * 触发未授权回调的响应数据中的 code 值，默认为 401
+   * 触发未授权回调的响应数据中的 code 值，默认为 1001
    */
   unauthorizedCodes?: number | number[];
 }
 
 /**
  * 未授权处理插件
- * 支持检测 HTTP 状态码 401 和响应数据中的自定义 code 值
+ * 支持检测 HTTP 状态码 401 和 403 以及响应数据中的自定义 code 值
  */
 export function unauthorizedPlugin(
   api: AxiosInstance,
   options: UnauthorizedOptions = {},
 ) {
-  const { onUnauthorized, unauthorizedCodes = 401 } = options;
+  const { onUnauthorized, unauthorizedCodes = 1001 } = options;
 
   if (!onUnauthorized) {
     return;
@@ -40,9 +40,9 @@ export function unauthorizedPlugin(
     return response;
   }, undefined);
 
-  // 错误响应拦截器 - 检查 HTTP 状态码 401
+  // 错误响应拦截器 - 检查 HTTP 状态码 401 或 403
   api.interceptors.response.use(undefined, (error: AxiosError) => {
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 || error.response?.status === 403) {
       onUnauthorized();
     }
     return Promise.reject(error);
