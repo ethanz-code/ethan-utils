@@ -288,3 +288,6 @@ function verifyNotify(params: SevenPay.Params.Notify): boolean {
   const signStr = signParams(filtered, sevenPayConfig.key);
   return signStr === params.sign;
 }
+
+// 导出类型
+export type { SevenPay } from "./types.d.ts";

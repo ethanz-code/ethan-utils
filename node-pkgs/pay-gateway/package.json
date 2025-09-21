@@ -8,24 +8,13 @@
   "files": [
     "dist",
     "types",
-    "README.md",
-    "USAGE.md"
+    "README.md"
   ],
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "types": "./types/index.d.ts"
-    },
-    "./7pay": {
-      "import": "./dist/pay/sevenPay.js",
-      "require": "./dist/pay/sevenPay.cjs",
-      "types": "./types/7pay/index.d.ts"
-    },
-    "./ltzf": {
-      "import": "./dist/pay/ltzf.js",
-      "require": "./dist/pay/ltzf.cjs",
-      "types": "./types/ltzf/index.d.ts"
     }
   },
   "scripts": {

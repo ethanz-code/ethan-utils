@@ -508,4 +508,5 @@ declare global {
   }
 }
 
-export {};
+// 导出 LTZF 命名空间
+export type { LTZF };

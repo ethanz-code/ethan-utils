@@ -432,6 +432,9 @@ export async function scanPay(
   return response;
 }
 
+// 重新导出类型定义，让外部可以访问
+export type { LTZF } from "./types.d.ts";
+
 /**
  * H5支付API请求方法
  * @param {LTZF.Params.H5PayInput} params - H5支付参数
