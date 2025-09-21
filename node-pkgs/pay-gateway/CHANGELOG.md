@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.2.4
+
+### Patch Changes
+
+- 44e7c72: 优化项目稳定性(hot refactor)
+
 ## 1.2.3
 
 ### Patch Changes
