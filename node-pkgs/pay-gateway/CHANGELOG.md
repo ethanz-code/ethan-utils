@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.2.3
+
+### Patch Changes
+
+- a7de2e8: 优化导出类型反馈
+
 ## 1.2.2
 
 ### Patch Changes
