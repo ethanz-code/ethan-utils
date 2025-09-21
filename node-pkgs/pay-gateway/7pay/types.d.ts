@@ -202,5 +202,3 @@ declare global {
 
 // 导出 SevenPay 命名空间
 export type { SevenPay };
-
-export {};
