@@ -51,7 +51,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@ethan-utils/axios": "^2.0.1",
+    "@ethan-utils/axios": "^2.6.0",
     "crypto-js": "^4.2.0"
   },
   "devDependencies": {

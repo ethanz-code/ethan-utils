@@ -6,6 +6,8 @@
 
 ### 7Pay 支付
 
+> ⚠️ **警告**：7Pay 支付功能封装未经过充分测试，请勿在生产环境中轻易使用。建议在正式使用前进行充分的测试验证。
+
 - `setSevenPayApiConfig(config)`：初始化 7Pay 配置
 - `jumpPay(params)`：生成跳转支付 URL
 - `apiPay(params)`：API 接口支付（POST）

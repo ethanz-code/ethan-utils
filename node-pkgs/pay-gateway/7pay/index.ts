@@ -184,7 +184,7 @@ export async function apiPay(
   Object.entries(fullParams).forEach(([k, v]) =>
     urlParams.append(k, String(v)),
   );
-  const res = await sevenPayApi.raw.post<SevenPay.Response.ApiPay>(
+  const res = await sevenPayApi.post<SevenPay.Response.ApiPay>(
     "/mapi.php",
     urlParams,
     {
@@ -205,7 +205,7 @@ export async function balanceQuery(): Promise<SevenPay.Response.BalanceQuery> {
     pid: sevenPayConfig.pid,
     key: sevenPayConfig.key,
   };
-  const res = await sevenPayApi.raw.get<SevenPay.Response.BalanceQuery>(
+  const res = await sevenPayApi.get<SevenPay.Response.BalanceQuery>(
     "/api.php",
     { params: query },
   );
@@ -227,10 +227,9 @@ export async function orderQuery(
     key: sevenPayConfig.key,
     ...params,
   };
-  const res = await sevenPayApi.raw.get<SevenPay.Response.OrderQuery>(
-    "/api.php",
-    { params: query },
-  );
+  const res = await sevenPayApi.get<SevenPay.Response.OrderQuery>("/api.php", {
+    params: query,
+  });
   return res;
 }
 
@@ -253,7 +252,7 @@ export async function refund(
   Object.entries(allParams).forEach(([k, v]) => {
     if (v !== undefined) urlParams.append(k, String(v));
   });
-  const res = await sevenPayApi.raw.post<SevenPay.Response.Refund>(
+  const res = await sevenPayApi.post<SevenPay.Response.Refund>(
     "/api.php?act=refund",
     urlParams,
     {

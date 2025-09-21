@@ -382,7 +382,9 @@ function verifyRefundNotifyParams(params: LTZF.Params.RefundNotify): boolean {
  * @param {LTZF.Params.ScanPayInput} params - 扫码支付参数
  * @returns {Promise<LTZF.Response.ScanPay>} 支付结果
  */
-export async function scanPay(params: LTZF.Params.ScanPayInput) {
+export async function scanPay(
+  params: LTZF.Params.ScanPayInput,
+): Promise<LTZF.Response.ScanPay> {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
   const notify_url = params.notify_url || ltzfConfig.notifyUrl;
@@ -413,7 +415,7 @@ export async function scanPay(params: LTZF.Params.ScanPayInput) {
     console.log("URL编码参数:", urlParams.toString());
   }
 
-  const response = await ltzfApi.raw.post<LTZF.Response.ScanPay>(
+  const response = await ltzfApi.post<LTZF.Response.ScanPay>(
     "/api/wxpay/native",
     urlParams,
     {
@@ -423,7 +425,7 @@ export async function scanPay(params: LTZF.Params.ScanPayInput) {
 
   // 响应日志输出
   if (ltzfConfig.log) {
-    console.log("响应数据:", JSON.stringify(response.data, null, 2));
+    console.log("响应数据:", JSON.stringify(response, null, 2));
     console.log("=== 扫码支付 (scanPay) 请求完成 ===\n");
   }
 
@@ -435,7 +437,9 @@ export async function scanPay(params: LTZF.Params.ScanPayInput) {
  * @param {LTZF.Params.H5PayInput} params - H5支付参数
  * @returns {Promise<LTZF.Response.H5Pay>} 支付结果
  */
-export async function h5Pay(params: LTZF.Params.H5PayInput) {
+export async function h5Pay(
+  params: LTZF.Params.H5PayInput,
+): Promise<LTZF.Response.H5Pay> {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
   const notify_url = params.notify_url || ltzfConfig.notifyUrl;
@@ -468,7 +472,7 @@ export async function h5Pay(params: LTZF.Params.H5PayInput) {
     console.log("URL编码参数:", urlParams.toString());
   }
 
-  const response = await ltzfApi.raw.post<LTZF.Response.H5Pay>(
+  const response = await ltzfApi.post<LTZF.Response.H5Pay>(
     "/api/wxpay/wap",
     urlParams,
     {
@@ -478,7 +482,7 @@ export async function h5Pay(params: LTZF.Params.H5PayInput) {
 
   // 响应日志输出
   if (ltzfConfig.log) {
-    console.log("响应数据:", JSON.stringify(response.data, null, 2));
+    console.log("响应数据:", JSON.stringify(response, null, 2));
     console.log("=== H5支付 (h5Pay) 请求完成 ===\n");
   }
 
@@ -490,7 +494,9 @@ export async function h5Pay(params: LTZF.Params.H5PayInput) {
  * @param {LTZF.Params.H5JumpPayInput} params - H5跳转支付参数
  * @returns {Promise<LTZF.Response.H5JumpPay>} 支付结果
  */
-export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
+export async function h5JumpPay(
+  params: LTZF.Params.H5JumpPayInput,
+): Promise<LTZF.Response.H5JumpPay> {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
   const notify_url = params.notify_url || ltzfConfig.notifyUrl;
@@ -533,8 +539,8 @@ export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
     console.log("URL编码参数:", urlParams.toString());
   }
 
-  const response = await ltzfApi.raw.post<LTZF.Response.H5JumpPay>(
-    "/api/wxpay/jump_h5",
+  const response = await ltzfApi.post<LTZF.Response.H5JumpPay>(
+    "/api/wxpay/wap",
     urlParams,
     {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -543,7 +549,7 @@ export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
 
   // 响应日志输出
   if (ltzfConfig.log) {
-    console.log("响应数据:", JSON.stringify(response.data, null, 2));
+    console.log("响应数据:", JSON.stringify(response, null, 2));
     console.log("=== H5跳转支付 (h5JumpPay) 请求完成 ===\n");
   }
 
@@ -555,7 +561,9 @@ export async function h5JumpPay(params: LTZF.Params.H5JumpPayInput) {
  * @param {LTZF.Params.JsapiPayInput} params - 公众号支付参数
  * @returns {Promise<LTZF.Response.JsapiPay>} 支付结果
  */
-export async function jsapiPay(params: LTZF.Params.JsapiPayInput) {
+export async function jsapiPay(
+  params: LTZF.Params.JsapiPayInput,
+): Promise<LTZF.Response.JsapiPay> {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
   const notify_url = params.notify_url || ltzfConfig.notifyUrl;
@@ -593,7 +601,7 @@ export async function jsapiPay(params: LTZF.Params.JsapiPayInput) {
     console.log(JSON.stringify(reqParams, null, 2));
   }
 
-  const response = await ltzfApi.raw.post<LTZF.Response.JsapiPay>(
+  const response = await ltzfApi.post<LTZF.Response.JsapiPay>(
     "/api/wxpay/jsapi",
     urlParams,
     {
@@ -603,7 +611,7 @@ export async function jsapiPay(params: LTZF.Params.JsapiPayInput) {
 
   if (ltzfConfig.log) {
     console.log("JSAPI支付 (jsapiPay) 响应数据:");
-    console.log(JSON.stringify(response.data, null, 2));
+    console.log(JSON.stringify(response, null, 2));
   }
 
   return response;
@@ -616,7 +624,7 @@ export async function jsapiPay(params: LTZF.Params.JsapiPayInput) {
  */
 export async function jsapiConvenientPay(
   params: LTZF.Params.JsapiConvenientInput,
-) {
+): Promise<LTZF.Response.JsapiConvenient> {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
   const notify_url = params.notify_url || ltzfConfig.notifyUrl;
@@ -654,7 +662,7 @@ export async function jsapiConvenientPay(
     console.log(JSON.stringify(reqParams, null, 2));
   }
 
-  const response = await ltzfApi.raw.post<LTZF.Response.JsapiConvenient>(
+  const response = await ltzfApi.post<LTZF.Response.JsapiConvenient>(
     "/api/wxpay/jsapi_convenient",
     urlParams,
     {
@@ -664,7 +672,7 @@ export async function jsapiConvenientPay(
 
   if (ltzfConfig.log) {
     console.log("公众号支付便捷版 (jsapiConvenientPay) 响应数据:");
-    console.log(JSON.stringify(response.data, null, 2));
+    console.log(JSON.stringify(response, null, 2));
   }
 
   return response;
@@ -675,7 +683,9 @@ export async function jsapiConvenientPay(
  * @param {LTZF.Params.AppPayInput} params - APP支付参数
  * @returns {Promise<LTZF.Response.AppPay>} 支付结果
  */
-export async function appPay(params: LTZF.Params.AppPayInput) {
+export async function appPay(
+  params: LTZF.Params.AppPayInput,
+): Promise<LTZF.Response.AppPay> {
   ensureLtzfConfig();
   const notify_url = params.notify_url || ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
@@ -710,7 +720,7 @@ export async function appPay(params: LTZF.Params.AppPayInput) {
     console.log(JSON.stringify(reqParams, null, 2));
   }
 
-  const response = await ltzfApi.raw.post<LTZF.Response.AppPay>(
+  const response = await ltzfApi.post<LTZF.Response.AppPay>(
     "/api/wxpay/app",
     urlParams,
     {
@@ -720,7 +730,7 @@ export async function appPay(params: LTZF.Params.AppPayInput) {
 
   if (ltzfConfig.log) {
     console.log("APP支付 (appPay) 响应数据:");
-    console.log(JSON.stringify(response.data, null, 2));
+    console.log(JSON.stringify(response, null, 2));
   }
 
   return response;
@@ -731,7 +741,9 @@ export async function appPay(params: LTZF.Params.AppPayInput) {
  * @param {LTZF.Params.MiniProgramPayInput} params - 小程序支付参数
  * @returns {Promise<LTZF.Response.MiniProgramPay>} 支付结果
  */
-export async function miniProgramPay(params: LTZF.Params.MiniProgramPayInput) {
+export async function miniProgramPay(
+  params: LTZF.Params.MiniProgramPayInput,
+): Promise<LTZF.Response.MiniProgramPay> {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
   const notify_url = params.notify_url || ltzfConfig.notifyUrl;
@@ -766,8 +778,8 @@ export async function miniProgramPay(params: LTZF.Params.MiniProgramPayInput) {
     console.log(JSON.stringify(reqParams, null, 2));
   }
 
-  const response = await ltzfApi.raw.post<LTZF.Response.MiniProgramPay>(
-    "/api/wxpay/miniprogram",
+  const response = await ltzfApi.post<LTZF.Response.MiniProgramPay>(
+    "/api/wxpay/mini",
     urlParams,
     {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -776,7 +788,7 @@ export async function miniProgramPay(params: LTZF.Params.MiniProgramPayInput) {
 
   if (ltzfConfig.log) {
     console.log("小程序支付 (miniProgramPay) 响应数据:");
-    console.log(JSON.stringify(response.data, null, 2));
+    console.log(JSON.stringify(response, null, 2));
   }
 
   return response;
@@ -787,7 +799,9 @@ export async function miniProgramPay(params: LTZF.Params.MiniProgramPayInput) {
  * @param {LTZF.Params.RefundOrderInput} params - 退款参数
  * @returns {Promise<LTZF.Response.RefundOrder>} 退款结果
  */
-export async function refundOrder(params: LTZF.Params.RefundOrderInput) {
+export async function refundOrder(
+  params: LTZF.Params.RefundOrderInput,
+): Promise<LTZF.Response.RefundOrder> {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
   const notify_url = params.notify_url || ltzfConfig.refundUrl;
@@ -819,7 +833,7 @@ export async function refundOrder(params: LTZF.Params.RefundOrderInput) {
     console.log(JSON.stringify(reqParams, null, 2));
   }
 
-  const response = await ltzfApi.raw.post<LTZF.Response.RefundOrder>(
+  const response = await ltzfApi.post<LTZF.Response.RefundOrder>(
     "/api/wxpay/refund_order",
     urlParams,
     {
@@ -829,7 +843,7 @@ export async function refundOrder(params: LTZF.Params.RefundOrderInput) {
 
   if (ltzfConfig.log) {
     console.log("订单退款 (refundOrder) 响应数据:");
-    console.log(JSON.stringify(response.data, null, 2));
+    console.log(JSON.stringify(response, null, 2));
   }
 
   return response;
@@ -842,7 +856,7 @@ export async function refundOrder(params: LTZF.Params.RefundOrderInput) {
  */
 export async function getWechatOpenid(
   params: LTZF.Params.GetWechatOpenidInput,
-) {
+): Promise<LTZF.Response.GetWechatOpenid> {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
   const timestamp = Math.floor(Date.now() / 1000).toString();
@@ -867,8 +881,8 @@ export async function getWechatOpenid(
     console.log(JSON.stringify(reqParams, null, 2));
   }
 
-  const response = await ltzfApi.raw.post<LTZF.Response.GetWechatOpenid>(
-    "/api/wxpay/get_wechat_openid",
+  const response = await ltzfApi.post<LTZF.Response.GetWechatOpenid>(
+    "/api/wxpay/get_openid",
     urlParams,
     {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -877,7 +891,7 @@ export async function getWechatOpenid(
 
   if (ltzfConfig.log) {
     console.log("获取微信Openid (getWechatOpenid) 响应数据:");
-    console.log(JSON.stringify(response.data, null, 2));
+    console.log(JSON.stringify(response, null, 2));
   }
 
   return response;
@@ -888,7 +902,9 @@ export async function getWechatOpenid(
  * @param {LTZF.Params.GetPayOrderInput} params - 查询订单参数
  * @returns {Promise<LTZF.Response.GetPayOrder>} 订单信息
  */
-export async function getPayOrder(params: LTZF.Params.GetPayOrderInput) {
+export async function getPayOrder(
+  params: LTZF.Params.GetPayOrderInput,
+): Promise<LTZF.Response.GetPayOrder> {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
   const timestamp = Math.floor(Date.now() / 1000).toString();
@@ -913,7 +929,7 @@ export async function getPayOrder(params: LTZF.Params.GetPayOrderInput) {
     console.log(JSON.stringify(reqParams, null, 2));
   }
 
-  const response = await ltzfApi.raw.post<LTZF.Response.GetPayOrder>(
+  const response = await ltzfApi.post<LTZF.Response.GetPayOrder>(
     "/api/wxpay/get_pay_order",
     urlParams,
     {
@@ -923,7 +939,7 @@ export async function getPayOrder(params: LTZF.Params.GetPayOrderInput) {
 
   if (ltzfConfig.log) {
     console.log("查询订单 (getPayOrder) 响应数据:");
-    console.log(JSON.stringify(response.data, null, 2));
+    console.log(JSON.stringify(response, null, 2));
   }
 
   return response;
@@ -934,7 +950,9 @@ export async function getPayOrder(params: LTZF.Params.GetPayOrderInput) {
  * @param {LTZF.Params.GetRefundOrderInput} params - 查询退款参数
  * @returns {Promise<LTZF.Response.GetRefundOrder>} 退款信息
  */
-export async function getRefundOrder(params: LTZF.Params.GetRefundOrderInput) {
+export async function getRefundOrder(
+  params: LTZF.Params.GetRefundOrderInput,
+): Promise<LTZF.Response.GetRefundOrder> {
   ensureLtzfConfig();
   const mch_id = ltzfConfig.mch_id;
   const timestamp = Math.floor(Date.now() / 1000).toString();
@@ -959,7 +977,7 @@ export async function getRefundOrder(params: LTZF.Params.GetRefundOrderInput) {
     console.log(JSON.stringify(reqParams, null, 2));
   }
 
-  const response = await ltzfApi.raw.post<LTZF.Response.GetRefundOrder>(
+  const response = await ltzfApi.post<LTZF.Response.GetRefundOrder>(
     "/api/wxpay/get_refund_order",
     urlParams,
     {
@@ -969,7 +987,7 @@ export async function getRefundOrder(params: LTZF.Params.GetRefundOrderInput) {
 
   if (ltzfConfig.log) {
     console.log("查询退款结果 (getRefundOrder) 响应数据:");
-    console.log(JSON.stringify(response.data, null, 2));
+    console.log(JSON.stringify(response, null, 2));
   }
 
   return response;

@@ -427,19 +427,16 @@ declare global {
       export type GetRefundOrderInput = Omit<GetRefundOrder, "mch_id" | "sign">;
     }
     namespace Response {
-      type BaseResponse<T> = {
+      // 暂时保留空的接口定义，等待用户提供具体的响应类型
+      export interface BaseResponse<T> {
         code: number;
+        data: T;
         msg: string;
         request_id: string;
-        data?: T;
-      };
-      export interface Notify extends BaseResponse {}
-      export interface RefundNotify extends BaseResponse {}
+      }
+
       export interface ScanPay
-        extends BaseResponse<{
-          qrcode_url?: string;
-          qrcode?: string;
-        }> {}
+        extends BaseResponse<{ code_url: string; QRcode_url: string }> {}
       export interface H5Pay extends BaseResponse<string> {}
       export interface H5JumpPay extends BaseResponse<string> {}
       export interface JsapiPay
@@ -485,13 +482,13 @@ declare global {
           mch_id: string;
           order_no: string;
           out_trade_no: string;
-          pay_no?: string;
+          pay_no: string;
           body: string;
           total_fee: string;
           trade_type: string;
-          success_time?: string;
+          success_time: string;
           attach: string;
-          openid?: string;
+          openid: string;
           pay_status: number;
         }> {}
       export interface GetRefundOrder
@@ -505,7 +502,7 @@ declare global {
           pay_refund_no: string;
           refund_fee: string;
           user_received_account: string;
-          success_time?: string;
+          success_time: string;
         }> {}
     }
   }
