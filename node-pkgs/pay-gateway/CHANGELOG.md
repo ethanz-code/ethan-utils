@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.2.2
+
+### Patch Changes
+
+- 9fe9d5a: 修复蓝兔支付不正确返回类型
+
 ## 1.2.1
 
 ### Patch Changes
