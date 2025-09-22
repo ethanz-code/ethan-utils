@@ -476,7 +476,7 @@ export async function h5Pay(
   }
 
   const response = await ltzfApi.post<LTZF.Response.H5Pay>(
-    "/api/wxpay/wap",
+    "/api/wxpay/h5",
     urlParams,
     {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -543,7 +543,7 @@ export async function h5JumpPay(
   }
 
   const response = await ltzfApi.post<LTZF.Response.H5JumpPay>(
-    "/api/wxpay/wap",
+    "/api/wxpay/jump_h5",
     urlParams,
     {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
