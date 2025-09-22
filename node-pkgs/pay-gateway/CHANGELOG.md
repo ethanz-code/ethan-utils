@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.2.5
+
+### Patch Changes
+
+- 4e45b5e: 修复 h5 h5jump 支付接口路径错误问题
+
 ## 1.2.4
 
 ### Patch Changes
