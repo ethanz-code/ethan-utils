@@ -504,7 +504,7 @@ export async function h5JumpPay(
   const mch_id = ltzfConfig.mch_id;
   const notify_url = params.notify_url || ltzfConfig.notifyUrl;
   const developer_appid = ltzfConfig.developerAppid;
-  const quit_url = undefined;
+  const quit_url = params.quit_url;
   const return_url = params.return_url || ltzfConfig.returnUrl;
   const timestamp = Math.floor(Date.now() / 1000).toString();
   const filteredParams = filterSignParams(
