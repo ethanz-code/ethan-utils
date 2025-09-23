@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.3.0
+
+### Minor Changes
+
+- ba29a5b: 新增 jump_h5 支付的 quitUrl 可选传参
+
 ## 1.2.5
 
 ### Patch Changes
