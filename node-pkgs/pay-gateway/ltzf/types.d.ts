@@ -353,14 +353,7 @@ declare global {
       export type H5JumpPayInput = Omit<
         H5JumpPay,
         "mch_id" | "sign" | "developer_appid"
-      > & {
-        /** 支付通知地址，可选，不传则使用配置中的默认值 */
-        notify_url?: string;
-        /** 回跳地址，可选，不传则使用配置中的默认值 */
-        return_url?: string;
-        /** 取消支付跳转地址，可选 */
-        quit_url?: string;
-      };
+      >;
       /**
        * 公众号支付业务入参类型
        */
