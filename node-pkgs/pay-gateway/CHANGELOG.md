@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.4.0
+
+### Minor Changes
+
+- 06aaf90: removed cjs build mode.
+
 ## 1.3.0
 
 ### Minor Changes
