@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.4.1
+
+### Patch Changes
+
+- d6a9f60: restore cjs build
+
 ## 1.4.0
 
 ### Minor Changes
