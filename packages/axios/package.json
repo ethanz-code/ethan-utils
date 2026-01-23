@@ -1,6 +1,6 @@
 {
   "name": "@ethan-utils/axios",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "description": "封装的高可用性axios请求库，支持全局配置、请求拦截、响应拦截等功能",
   "type": "module",
   "main": "./dist/index.js",
