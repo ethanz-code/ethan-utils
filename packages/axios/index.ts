@@ -99,6 +99,24 @@ const formatError = <T>(error: unknown): BaseResponse<T> => {
 };
 
 /**
+ * 智能解包响应数据
+ * 判断是否为 AxiosResponse，如果是则返回 data，否则直接返回 response
+ */
+const unwrapResponse = <T>(response: unknown): T => {
+  if (
+    response &&
+    typeof response === "object" &&
+    "data" in response &&
+    "status" in response &&
+    "headers" in response &&
+    "config" in response
+  ) {
+    return (response as any).data as T;
+  }
+  return response as T;
+};
+
+/**
  * 创建 API 客户端，包含常用请求方法和原始请求方法（raw）
  * @param api Axios 实例
  * @returns 标准请求方法和 raw 原始方法
@@ -108,7 +126,7 @@ function createClient(api: AxiosInstance): ApiClient {
     /** GET 请求，直接返回后端数据，失败抛出异常 */
     async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
       const response = await api.get<T>(url, config);
-      return response.data;
+      return unwrapResponse<T>(response);
     },
     /** GET 标准请求，返回 BaseResponse 格式，错误会被转换为标准响应 */
     async getStandard<T, R extends BaseResponse<T> = BaseResponse<T>>(
@@ -117,7 +135,7 @@ function createClient(api: AxiosInstance): ApiClient {
     ): Promise<R> {
       try {
         const response = await api.get<R>(url, config);
-        return response.data;
+        return unwrapResponse<R>(response);
       } catch (error: unknown) {
         return formatError<T>(error) as R;
       }
@@ -129,7 +147,7 @@ function createClient(api: AxiosInstance): ApiClient {
       config?: AxiosRequestConfig,
     ): Promise<T> {
       const response = await api.post<T>(url, data, config);
-      return response.data;
+      return unwrapResponse<T>(response);
     },
     /** POST 标准请求，返回 BaseResponse 格式，错误会被转换为标准响应 */
     async postStandard<T, R extends BaseResponse<T> = BaseResponse<T>>(
@@ -139,7 +157,7 @@ function createClient(api: AxiosInstance): ApiClient {
     ): Promise<R> {
       try {
         const response = await api.post<R>(url, data, config);
-        return response.data;
+        return unwrapResponse<R>(response);
       } catch (error: unknown) {
         return formatError<T>(error) as R;
       }
@@ -151,7 +169,7 @@ function createClient(api: AxiosInstance): ApiClient {
       config?: AxiosRequestConfig,
     ): Promise<T> {
       const response = await api.put<T>(url, data, config);
-      return response.data;
+      return unwrapResponse<T>(response);
     },
     /** PUT 标准请求，返回 BaseResponse 格式，错误会被转换为标准响应 */
     async putStandard<T, R extends BaseResponse<T> = BaseResponse<T>>(
@@ -161,7 +179,7 @@ function createClient(api: AxiosInstance): ApiClient {
     ): Promise<R> {
       try {
         const response = await api.put<R>(url, data, config);
-        return response.data;
+        return unwrapResponse<R>(response);
       } catch (error: unknown) {
         return formatError<T>(error) as R;
       }
@@ -169,7 +187,7 @@ function createClient(api: AxiosInstance): ApiClient {
     /** DELETE 请求，直接返回后端数据，失败抛出异常 */
     async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
       const response = await api.delete<T>(url, config);
-      return response.data;
+      return unwrapResponse<T>(response);
     },
     /** DELETE 标准请求，返回 BaseResponse 格式，错误会被转换为标准响应 */
     async deleteStandard<T, R extends BaseResponse<T> = BaseResponse<T>>(
@@ -178,7 +196,7 @@ function createClient(api: AxiosInstance): ApiClient {
     ): Promise<R> {
       try {
         const response = await api.delete<R>(url, config);
-        return response.data;
+        return unwrapResponse<R>(response);
       } catch (error: unknown) {
         return formatError<T>(error) as R;
       }
@@ -190,7 +208,7 @@ function createClient(api: AxiosInstance): ApiClient {
       config?: AxiosRequestConfig,
     ): Promise<T> {
       const response = await api.patch<T>(url, data, config);
-      return response.data;
+      return unwrapResponse<T>(response);
     },
     /** PATCH 标准请求，返回 BaseResponse 格式，错误会被转换为标准响应 */
     async patchStandard<T, R extends BaseResponse<T> = BaseResponse<T>>(
@@ -200,7 +218,7 @@ function createClient(api: AxiosInstance): ApiClient {
     ): Promise<R> {
       try {
         const response = await api.patch<R>(url, data, config);
-        return response.data;
+        return unwrapResponse<R>(response);
       } catch (error: unknown) {
         return formatError<T>(error) as R;
       }
