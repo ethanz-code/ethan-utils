@@ -27,6 +27,10 @@ interface ApiClient {
     config?: AxiosRequestConfig,
   ): Promise<T>;
   use<T>(plugin: AxiosPlugin<T>, options?: T): void;
+  /**
+   * 底层的 Axios 实例，暴露以允许外部进行高级配置（如添加拦截器）
+   */
+  instance: AxiosInstance;
   std: {
     get<T, R extends BaseResponse<T> = BaseResponse<T>>(
       url: string,
@@ -213,6 +217,7 @@ function createClient(api: AxiosInstance): ApiClient {
 
   return {
     ...methods,
+    instance: api,
     use<T>(plugin: AxiosPlugin<T>, options?: T): void {
       plugin(api, options);
     },
