@@ -1,5 +1,12 @@
 # @ethan-utils/axios
 
+## 2.7.0
+
+### Minor Changes
+
+- 9eaac09: feat: 暴露底层 axios 实例 (request.instance) 以支持自定义拦截器
+  docs: 更新 README.md 和 package.json 配置
+
 ## 2.6.0
 
 ### Minor Changes
