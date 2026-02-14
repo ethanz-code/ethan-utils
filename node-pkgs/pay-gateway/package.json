@@ -8,6 +8,8 @@
   "files": [
     "dist",
     "types",
+    "ltzf/types.d.ts",
+    "7pay/types.d.ts",
     "README.md"
   ],
   "exports": {
@@ -18,7 +20,7 @@
     }
   },
   "scripts": {
-    "generate-types": "tsc --emitDeclarationOnly --declaration --declarationDir types --project tsconfig.json",
+    "generate-types": "tsc --emitDeclarationOnly --declaration --declarationDir types --project tsconfig.json && cp -f ltzf/types.d.ts types/ltzf/types.d.ts && cp -f 7pay/types.d.ts types/7pay/types.d.ts",
     "build": "rolldown -c rolldown.config.ts && pnpm generate-types"
   },
   "author": "Ethan Zhang",
