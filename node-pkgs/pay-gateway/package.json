@@ -1,6 +1,6 @@
 {
   "name": "@ethan-utils/pay-gateway",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "蓝兔支付，7Pay 等多种第三方支付的网关工具包",
   "type": "module",
   "main": "dist/index.js",

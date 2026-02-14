@@ -1,5 +1,11 @@
 # @ethan-utils/pay-gateway
 
+## 1.4.2
+
+### Patch Changes
+
+- 6037a7f: added types.d.ts file.
+
 ## 1.4.1
 
 ### Patch Changes
